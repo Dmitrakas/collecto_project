@@ -7,5 +7,6 @@ router.post('/', itemController.createItem);
 router.get('/:itemId', itemController.getItemById);
 router.put('/:itemId', itemController.updateItem);
 router.delete('/:itemId', itemController.deleteItem);
+router.post('/:itemId/like', itemController.likeItem);
 
 module.exports = router;

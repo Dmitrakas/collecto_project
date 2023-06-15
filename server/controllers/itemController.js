@@ -60,10 +60,28 @@ const deleteItem = async (req, res) => {
   }
 };
 
+const likeItem = async (req, res) => {
+  try {
+    const { itemId } = req.params;
+    const item = await Item.findById(itemId);
+
+    if (item.likes === 0) {
+      item.likes += 1;
+      await item.save();
+      res.json(item);
+    } else {
+      res.status(400).json({ error: 'Item already liked' });
+    }
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to like item' });
+  }
+};
+
 module.exports = {
   getAllItems,
   createItem,
   getItemById,
   updateItem,
-  deleteItem
+  deleteItem,
+  likeItem,
 };
