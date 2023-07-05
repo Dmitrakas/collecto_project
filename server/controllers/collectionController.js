@@ -12,7 +12,6 @@ class CollectionController {
               image,
               userId: req.user.id
             });
-      
             
             await newCollection.save();
             return res.json(newCollection);

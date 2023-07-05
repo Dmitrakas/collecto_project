@@ -12,7 +12,6 @@ function App() {
     <Router>
       <div>
         <Header />
-
         <Routes>
           <Route path="/" element={<Main />} />
           <Route path="/registration" element={<Registration />} />
