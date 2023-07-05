@@ -1,0 +1,5 @@
+{
+  "serverPort": 5000, 
+  "mongoURI": "mongodb+srv://Dmitry:admin@cluster0.ypdufpr.mongodb.net/node-collecto?retryWrites=true&w=majority",
+  "secretKey": "secretKey"
+}
