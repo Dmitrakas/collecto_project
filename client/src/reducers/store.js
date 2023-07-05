@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 import thunkMiddleware from 'redux-thunk';
-import userReducer from './userReducer';
+import userReducer from './userReducer'; // Обратите внимание на импорт здесь
 import collectionReducer from './collectionReducer';
 
 const store = configureStore({

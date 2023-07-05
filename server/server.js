@@ -5,6 +5,7 @@ const authRouter = require('./routes/auth.routes');
 const collectionRouter = require('./routes/collection.routes');
 const corsMiddleware = require('./middleware/cors.middleware')
 
+
 const PORT = process.env.PORT || config.get('serverPort');
 const app = express();
 app.use(corsMiddleware);
