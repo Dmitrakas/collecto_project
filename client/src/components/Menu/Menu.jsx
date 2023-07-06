@@ -2,7 +2,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 
 export default function Menu() {
-  const isAuth = useSelector((state) => state.isAuth);
+  const isAuth = useSelector((state) => state.user.isAuth);
 
   return (
     <ul className="navbar-nav mx-auto">

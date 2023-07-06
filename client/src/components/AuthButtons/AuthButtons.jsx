@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 function AuthButtons() {
-  const isAuth = useSelector((state) => state.isAuth);
+  const isAuth = useSelector((state) => state.user.isAuth);
   const navigate = useNavigate();
 
   const handleRegistrationClick = () => {

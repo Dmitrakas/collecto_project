@@ -15,7 +15,7 @@ export default function Login() {
     e.preventDefault();
 
     try {
-      await dispatch(login(email, password));
+      dispatch(login({email, password}));
       navigate('/');
       console.log('Вход выполнен успешно');
     } catch (error) {

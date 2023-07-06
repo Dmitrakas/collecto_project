@@ -13,7 +13,7 @@ export default function Registration() {
     e.preventDefault();
 
     try {
-      await registration(username, email, password);
+      registration(username, email, password);
       navigate('/');
 
       console.log('Регистрация успешна');

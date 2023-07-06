@@ -1,36 +1,35 @@
 import axios from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
-export const registration = createAsyncThunk(
-  'user/registration',
-  async ({ username, email, password }, thunkAPI) => {
-    try {
-      const response = await axios.post('http://localhost:5000/api/auth/registration', {
-        username,
-        email,
-        password,
-      });
-      return response.data.message;
-    } catch (error) {
-      return thunkAPI.rejectWithValue(error.response.data.message);
-    }
+export const registration = async (username, email, password) => {
+  try {
+    const response = await axios.post(`http://localhost:5000/api/auth/registration`, {
+      username,
+      email,
+      password
+    })
+    alert(response.data.message)
+  } catch (e) {
+    alert(e.response.data.message)
   }
-);
+}
 
 
 export const login = createAsyncThunk(
-  'user/login',
-  async ({ email, password }, thunkAPI) => {
+  'user/loginUser',
+  async ( param ) => {
     try {
+      const {email, password} = param;
+      console.log(`email: ${email}, password: ${password}`)
       const response = await axios.post('http://localhost:5000/api/auth/login', {
         email,
-        password,
-      });
+        password
+      })
       const token = response.data.token;
       localStorage.setItem('token', token);
-      return response.data.user;
+      return response;
     } catch (error) {
-      return thunkAPI.rejectWithValue(error.response.data.message);
+      return (error.message);
     }
   }
 );
