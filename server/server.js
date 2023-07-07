@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const config = require('config');
 const authRouter = require('./routes/auth.routes');
 const collectionRouter = require('./routes/collection.routes');
+const itemRouter = require('./routes/item.routes');
 const corsMiddleware = require('./middleware/cors.middleware')
 
 
@@ -14,6 +15,7 @@ app.use(express.json());
 
 app.use('/api/auth', authRouter);
 app.use('/api/collection', collectionRouter);
+app.use('/api/item', itemRouter);
 
 
 const start = async () => {

@@ -1,0 +1,29 @@
+.main-container {
+  margin: 20px;
+}
+
+h2 {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.main-container-collections {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.collection-card-main {
+  padding: 20px;
+  background-color: #f1f1f1;
+  border-radius: 5px;
+}
+
+.collection-card-main h3 {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.collection-card-main p {
+  margin-bottom: 5px;
+}

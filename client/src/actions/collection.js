@@ -6,7 +6,7 @@ export const createCollection = createAsyncThunk(
   async (param) => {
     try {
       const { name, description, theme, image, userId } = param;
-      const response = await axios.post('http://localhost:5000/api/collection', {
+      const response = await axios.post('http://localhost:5000/api/collection/create', {
         name,
         description,
         theme,
@@ -22,12 +22,34 @@ export const createCollection = createAsyncThunk(
 
 export const getCollections = async (userId) => {
   try {
-    const response = await axios.get('http://localhost:5000/api/collection', {
+    const response = await axios.get('http://localhost:5000/api/collection/collections', {
       params: {
         userId: userId
       }
     })
     return response.data.collections;
+  } catch (error) {
+    return error.message;
+  }
+};
+
+export const getAllCollections = async () => {
+  try {
+    const response = await axios.get('http://localhost:5000/api/collection/allCollections');
+    return response.data.collections;
+  } catch (error) {
+    return error.message;
+  }
+};
+
+export const getCollectionById = async (id) => {
+  try {
+    const response = await axios.get('http://localhost:5000/api/collection/collectionById', {
+      params: {
+        id: id
+      }
+    });
+    return response.data.collection;
   } catch (error) {
     return error.message;
   }
