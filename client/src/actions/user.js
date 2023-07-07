@@ -17,9 +17,9 @@ export const registration = async (username, email, password) => {
 
 export const login = createAsyncThunk(
   'user/loginUser',
-  async ( param ) => {
+  async (param) => {
     try {
-      const {email, password} = param;
+      const { email, password } = param;
       console.log(`email: ${email}, password: ${password}`)
       const response = await axios.post('http://localhost:5000/api/auth/login', {
         email,
@@ -34,24 +34,14 @@ export const login = createAsyncThunk(
   }
 );
 
-
-export const auth = createAsyncThunk(
-  'user/auth',
-  async (_, thunkAPI) => {
+export const logout = createAsyncThunk(
+  'user/logoutUser',
+  async () => {
     try {
-      const token = localStorage.getItem('token');
-      if (!token) {
-        throw new Error('No token found');
-      }
-      const response = await axios.get('http://localhost:5000/api/auth/auth', {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      const { user, token: newToken } = response.data;
-      localStorage.setItem('token', newToken);
-      return user;
+      localStorage.removeItem('token')
+      return console.log('logged out');
     } catch (error) {
-      localStorage.removeItem('token');
-      return thunkAPI.rejectWithValue(error.response.data.message);
+      return (error.message);
     }
   }
 );

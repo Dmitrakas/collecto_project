@@ -3,7 +3,7 @@ const router = new Router();
 const authMiddleware = require('../middleware/authMiddleware');
 const collectionController = require('../controllers/collectionController');
 
-router.post('', authMiddleware, collectionController.createCollection);
-router.get('', authMiddleware, collectionController.getCollections);
+router.post('', collectionController.createCollection);
+router.get('',  collectionController.getCollections);
 
 module.exports = router;

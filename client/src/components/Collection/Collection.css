@@ -1,0 +1,37 @@
+.collection-container {
+  margin: 20px;
+}
+
+.collection-container h2 {
+  margin-bottom: 10px;
+}
+
+.form-label {
+  font-weight: bold;
+}
+
+.form-control {
+  margin-bottom: 10px;
+}
+
+.collections-container {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 20px;
+}
+
+.collection-card {
+  width: 300px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px;
+  margin: 10px;
+}
+
+.collection-card h3 {
+  margin-top: 0;
+}
+
+.collection-card p {
+  margin-bottom: 10px;
+}

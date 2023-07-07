@@ -1,10 +1,12 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { logout } from "../../actions/user";
 
 function AuthButtons() {
   const isAuth = useSelector((state) => state.user.isAuth);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleRegistrationClick = () => {
     navigate("/registration");
@@ -15,7 +17,8 @@ function AuthButtons() {
   };
 
     const handleLogoutClick = () => {
-    navigate("/logout");
+      dispatch(logout());
+      navigate("/login");
   };
 
   return (

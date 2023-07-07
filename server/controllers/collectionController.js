@@ -4,13 +4,13 @@ const Collection = require('../models/collection');
 class CollectionController {
     async createCollection(req, res) {
         try {
-            const { name, description, theme, image } = req.body;
+            const { name, description, theme, image, userId } = req.body;
             const newCollection = new Collection({
               name,
               description,
               theme,
               image,
-              userId: req.user.id
+              userId,
             });
             
             await newCollection.save();
@@ -23,7 +23,7 @@ class CollectionController {
 
     async getCollections(req, res) {
         try {
-            const collections = await Collection.find({userId: req.user.id})
+            const collections = await Collection.find({userId: req.query.userId})
             return res.json({collections})
         } catch (e) {
             console.log(e)

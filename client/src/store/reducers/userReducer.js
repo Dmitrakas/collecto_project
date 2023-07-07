@@ -1,13 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit';
-import {login} from '../../actions/user'
+import { login, logout } from '../../actions/user'
 
 export const userSlice = createSlice({
   name: 'user',
   initialState: {
-    currentUser: {email: '123'},
+    currentUser: {},
     isAuth: false,
     isLoading: false,
-    token : ''
+    token: ''
   },
   reducers: {},
   extraReducers: builder => {
@@ -17,12 +17,19 @@ export const userSlice = createSlice({
       state.isAuth = true;
       state.token = action.payload.data.token;
     })
-    .addCase(login.pending, state => {
-      state.isLoading = true;
-    })
-    .addCase(login.rejected, (state) => {
+      .addCase(login.pending, state => {
+        state.isLoading = true;
+      })
+      .addCase(login.rejected, (state) => {
+        state.isLoading = false;
+        state.currentUser = {};
+      })
+
+    builder.addCase(logout.fulfilled, (state) => {
       state.isLoading = false;
       state.currentUser = {};
+      state.isAuth = false;
+      state.token = '';
     })
   },
 });

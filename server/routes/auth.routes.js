@@ -73,10 +73,9 @@ router.get('/auth', authMiddleware,
         token,
         user: {
           id: user.id,
+          username: user.username,
           email: user.email,
-          diskSpace: user.diskSpace,
-          usedSpace: user.usedSpace,
-          avatar: user.avatar
+          isAdmin: user.isAdmin,
         }
       })
     } catch (e) {

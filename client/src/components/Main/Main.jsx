@@ -1,17 +1,14 @@
 import React from "react";
-import { useSelector } from "react-redux";
 
 export default function Main() {
-  const user = useSelector(
-    (state) => state.user.currentUser
-  );
-
   return (
-    <div>
-      <p>Email: {user.email}</p>
-      <p>ID: {user.id}</p>
-      <p>isAdmin: {user.isAdmin ? 'true' : 'false'}</p>
-      <p>Username: {user.username}</p>
+    <div className="container">
+      <div className="d-flex justify-content-center align-items-center vh-100">
+        <div className="text-center">
+          <h1>Main page!</h1>
+        </div>
+      </div>
     </div>
   );
 }
+
