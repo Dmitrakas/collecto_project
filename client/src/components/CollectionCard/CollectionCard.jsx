@@ -13,11 +13,12 @@ export default function CollectionCard({ collection }) {
   return (
     <div className="collection-card-link" onClick={handleCollectionClick}>
       <div className="collection-card">
-        <h3>Collection name: {collection.name}</h3>
-        <p>description: {collection.description}</p>
-        <p>theme: {collection.theme}</p>
-        <p>image: {collection.image}</p>
-        <p>userId: {collection.userId}</p>
+        <h3>Collection Name: {collection.name}</h3>
+        <p>Description: {collection.description}</p>
+        <p>Theme: {collection.theme}</p>
+        <p>Image: {collection.image}</p>
+        <p>Item Name: {collection.itemName}</p>
+        <p>Item Description: {collection.itemDescription}</p>
       </div>
     </div>
   );

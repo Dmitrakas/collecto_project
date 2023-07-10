@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { getAllCollections } from "../../actions/collection";
-import './Main.css'
+import "./Main.css";
 
 export default function Main() {
   const [collections, setCollections] = useState([]);
@@ -30,11 +30,12 @@ export default function Main() {
         <div className="main-container-collections">
           {collections.map((collection) => (
             <div key={collection._id} className="collection-card-main">
-              <h3>{collection.name}</h3>
-              <p>{collection.description}</p>
-              <p>{collection.theme}</p>
-              <p>{collection.image}</p>
-              <p>{collection.userId}</p>
+              <h3>Collection Name: {collection.name}</h3>
+              <p>Description: {collection.description}</p>
+              <p>Theme: {collection.theme}</p>
+              <p>Image: {collection.image}</p>
+              <p>Item Name: {collection.itemName}</p>
+              <p>Item Description: {collection.itemDescription}</p>
             </div>
           ))}
         </div>

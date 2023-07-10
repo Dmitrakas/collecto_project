@@ -4,13 +4,37 @@ const Collection = require('../models/collection');
 class CollectionController {
   async createCollection(req, res) {
     try {
-      const { name, description, theme, image, userId } = req.body;
+      const {
+        name,
+        description,
+        theme,
+        image,
+        itemName,
+        itemDescription,
+        tags,
+        itemFieldName1,
+        itemFieldName2,
+        itemFieldName3,
+        itemFieldType1,
+        itemFieldType2,
+        itemFieldType3,
+        userId
+      } = req.body;
       const newCollection = new Collection({
         name,
         description,
         theme,
         image,
-        userId,
+        itemName,
+        itemDescription,
+        tags,
+        itemFieldName1,
+        itemFieldName2,
+        itemFieldName3,
+        itemFieldType1,
+        itemFieldType2,
+        itemFieldType3,
+        userId
       });
 
       await newCollection.save();

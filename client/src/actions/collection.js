@@ -5,12 +5,36 @@ export const createCollection = createAsyncThunk(
   'user/createCollection',
   async (param) => {
     try {
-      const { name, description, theme, image, userId } = param;
+      const {
+        name,
+        description,
+        theme,
+        image,
+        itemName,
+        itemDescription,
+        tags,
+        itemFieldName1,
+        itemFieldName2,
+        itemFieldName3,
+        itemFieldType1,
+        itemFieldType2,
+        itemFieldType3,
+        userId
+      } = param;
       const response = await axios.post('http://localhost:5000/api/collection/create', {
         name,
         description,
         theme,
         image,
+        itemName,
+        itemDescription,
+        tags,
+        itemFieldName1,
+        itemFieldName2,
+        itemFieldName3,
+        itemFieldType1,
+        itemFieldType2,
+        itemFieldType3,
         userId
       })
       return response;

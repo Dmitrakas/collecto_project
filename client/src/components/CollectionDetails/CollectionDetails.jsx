@@ -32,7 +32,11 @@ export default function CollectionDetails() {
       <p>Description: {collection.description}</p>
       <p>Theme: {collection.theme}</p>
       <p>Image: {collection.image}</p>
-      <p>User ID: {collection.userId}</p>
+      <p>Item Name: {collection.itemName}</p>
+      <p>Item Description: {collection.itemDescription}</p>
+      <p>Item Name 1: {collection.itemFieldName1}</p>
+      <p>Item Name 2: {collection.itemFieldName2}</p>
+      <p>Item Name 3: {collection.itemFieldName3}</p>
     </div>
   );
 }

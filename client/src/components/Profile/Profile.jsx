@@ -19,11 +19,11 @@ export default function Profile() {
             <strong>Email:</strong> {user.email}
           </p>
           <p className="card-text">
-            <strong>ID:</strong> {user.id}
-          </p>
-          <p className="card-text">
             <strong>isAdmin:</strong>{" "}
             {user.isAdmin ? "true" : "false"}
+          </p>
+          <p className="card-text">
+            <strong>ID:</strong> {user.id}
           </p>
         </div>
       </div>

@@ -3,7 +3,6 @@ import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { createCollection, getCollections } from "../../actions/collection";
-import { createItem } from "../../actions/item";
 import CollectionCard from "../CollectionCard/CollectionCard";
 import "./Collection.css";
 
@@ -12,20 +11,18 @@ export default function Collection() {
   const [description, setDescription] = useState("");
   const [theme, setTheme] = useState("");
   const [image, setImage] = useState("");
-
   const [itemName, setItemName] = useState("");
   const [itemDescription, setItemDescription] = useState("");
   const [tags, setTags] = useState("");
-
-  const [field1Name, setField1Name] = useState("");
-  const [field1Type, setField1Type] = useState("");
-  const [field2Name, setField2Name] = useState("");
-  const [field2Type, setField2Type] = useState("");
-  const [field3Name, setField3Name] = useState("");
-  const [field3Type, setField3Type] = useState("");
+  const [itemFieldName1, setItemFieldName1] = useState("");
+  const [itemFieldName2, setItemFieldName2] = useState("");
+  const [itemFieldName3, setItemFieldName3] = useState("");
+  const [itemFieldType1, setItemFieldType1] = useState("");
+  const [itemFieldType2, setItemFieldType2] = useState("");
+  const [itemFieldType3, setItemFieldType3] = useState("");
   const [collections, setCollections] = useState([]);
+
   const userId = useSelector((state) => state.user.currentUser.id);
-  const collectionId = useSelector((state) => state.collection.collectionId);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -48,20 +45,24 @@ export default function Collection() {
     e.preventDefault();
 
     try {
-      dispatch(createCollection({ name, description, theme, image, userId }));
-      await createItem({
-        name: itemName,
-        description: itemDescription,
-        tags,
-        fieldName1: field1Name,
-        fieldName2: field2Name,
-        fieldName3: field3Name,
-        fieldType1: field1Type,
-        fieldType2: field2Type,
-        fieldType3: field3Type,
-        collectionId,
-        userId,
-      });
+      dispatch(
+        createCollection({
+          name,
+          description,
+          theme,
+          image,
+          itemName,
+          itemDescription,
+          tags,
+          itemFieldName1,
+          itemFieldName2,
+          itemFieldName3,
+          itemFieldType1,
+          itemFieldType2,
+          itemFieldType3,
+          userId,
+        })
+      );
       setName("");
       setDescription("");
       setTheme("");
@@ -69,12 +70,12 @@ export default function Collection() {
       setItemName("");
       setItemDescription("");
       setTags("");
-      setField1Name("");
-      setField1Type("");
-      setField2Name("");
-      setField2Type("");
-      setField3Name("");
-      setField3Type("");
+      setItemFieldName1("");
+      setItemFieldName2("");
+      setItemFieldName3("");
+      setItemFieldType1("");
+      setItemFieldType2("");
+      setItemFieldType3("");
     } catch (error) {
       console.error("Error creating collection:", error.message);
     }
@@ -185,8 +186,8 @@ export default function Collection() {
                 <input
                   type="text"
                   className="form-control"
-                  value={field1Name}
-                  onChange={(e) => setField1Name(e.target.value)}
+                  value={itemFieldName1}
+                  onChange={(e) => setItemFieldName1(e.target.value)}
                 />
               </label>
             </div>
@@ -195,16 +196,15 @@ export default function Collection() {
                 Field 1 Type:
                 <select
                   className="form-select"
-                  value={field1Type}
-                  onChange={(e) => setField1Type(e.target.value)}
+                  value={itemFieldType1}
+                  onChange={(e) => setItemFieldType1(e.target.value)}
                   required
                 >
-                  <option value="">Select Type</option>
-                  <option value="String">String</option>
-                  <option value="Number">Number</option>
-                  <option value="Text">Text</option>
-                  <option value="Boolean">Boolean</option>
-                  <option value="Date">Date</option>
+                  <option value="string">String</option>
+                  <option value="number">Number</option>
+                  <option value="text">Text</option>
+                  <option value="boolean">Boolean</option>
+                  <option value="date">Date</option>
                 </select>
               </label>
             </div>
@@ -216,8 +216,8 @@ export default function Collection() {
                 <input
                   type="text"
                   className="form-control"
-                  value={field2Name}
-                  onChange={(e) => setField2Name(e.target.value)}
+                  value={itemFieldName2}
+                  onChange={(e) => setItemFieldName2(e.target.value)}
                 />
               </label>
             </div>
@@ -226,16 +226,15 @@ export default function Collection() {
                 Field 2 Type:
                 <select
                   className="form-select"
-                  value={field2Type}
-                  onChange={(e) => setField2Type(e.target.value)}
+                  value={itemFieldType2}
+                  onChange={(e) => setItemFieldType2(e.target.value)}
                   required
                 >
-                  <option value="">Select Type</option>
-                  <option value="String">String</option>
-                  <option value="Number">Number</option>
-                  <option value="Text">Text</option>
-                  <option value="Boolean">Boolean</option>
-                  <option value="Date">Date</option>
+                  <option value="string">String</option>
+                  <option value="number">Number</option>
+                  <option value="text">Text</option>
+                  <option value="boolean">Boolean</option>
+                  <option value="date">Date</option>
                 </select>
               </label>
             </div>
@@ -247,8 +246,8 @@ export default function Collection() {
                 <input
                   type="text"
                   className="form-control"
-                  value={field3Name}
-                  onChange={(e) => setField3Name(e.target.value)}
+                  value={itemFieldName3}
+                  onChange={(e) => setItemFieldName3(e.target.value)}
                 />
               </label>
             </div>
@@ -257,16 +256,15 @@ export default function Collection() {
                 Field 3 Type:
                 <select
                   className="form-select"
-                  value={field3Type}
-                  onChange={(e) => setField3Type(e.target.value)}
+                  value={itemFieldType3}
+                  onChange={(e) => setItemFieldType3(e.target.value)}
                   required
                 >
-                  <option value="">Select Type</option>
-                  <option value="String">String</option>
-                  <option value="Number">Number</option>
-                  <option value="Text">Text</option>
-                  <option value="Boolean">Boolean</option>
-                  <option value="Date">Date</option>
+                  <option value="string">String</option>
+                  <option value="number">Number</option>
+                  <option value="text">Text</option>
+                  <option value="boolean">Boolean</option>
+                  <option value="date">Date</option>
                 </select>
               </label>
             </div>
