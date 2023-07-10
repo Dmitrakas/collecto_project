@@ -21,6 +21,7 @@ export const collectionSlice = createSlice({
       .addCase(createCollection.rejected, (state) => {
         state.isLoading = false;
         state.collections = [];
+        state.collectionId = '';
       })
   },
 });

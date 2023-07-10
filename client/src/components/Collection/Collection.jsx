@@ -12,7 +12,6 @@ export default function Collection() {
   const [theme, setTheme] = useState("");
   const [image, setImage] = useState("");
   const [itemName, setItemName] = useState("");
-  const [itemDescription, setItemDescription] = useState("");
   const [tags, setTags] = useState("");
   const [itemFieldName1, setItemFieldName1] = useState("");
   const [itemFieldName2, setItemFieldName2] = useState("");
@@ -52,7 +51,6 @@ export default function Collection() {
           theme,
           image,
           itemName,
-          itemDescription,
           tags,
           itemFieldName1,
           itemFieldName2,
@@ -68,7 +66,6 @@ export default function Collection() {
       setTheme("");
       setImage("");
       setItemName("");
-      setItemDescription("");
       setTags("");
       setItemFieldName1("");
       setItemFieldName2("");
@@ -137,7 +134,7 @@ export default function Collection() {
           />
         </div>
 
-        <h2>Поля у Item</h2>
+        <h2>Item fields</h2>
         <div className="mb-3">
           <label htmlFor="itemName" className="form-label">
             Name:
@@ -152,15 +149,29 @@ export default function Collection() {
           />
         </div>
         <div className="mb-3">
-          <label htmlFor="itemDescription" className="form-label">
-            Description:
+          <label htmlFor="tags" className="form-label">
+            Tags:
           </label>
           <input
             type="text"
             className="form-control"
-            id="itemDescription"
-            value={itemDescription}
-            onChange={(e) => setItemDescription(e.target.value)}
+            id="tags"
+            value={tags}
+            onChange={(e) => setTags(e.target.value)}
+          />
+        </div>
+
+        <h2>Item fields</h2>
+        <div className="mb-3">
+          <label htmlFor="itemName" className="form-label">
+            Name:
+          </label>
+          <input
+            type="text"
+            className="form-control"
+            id="itemName"
+            value={itemName}
+            onChange={(e) => setItemName(e.target.value)}
             required
           />
         </div>
@@ -179,8 +190,8 @@ export default function Collection() {
 
         <div className="mb-3">
           <p>Additional item fields:</p>
-          <div className="row">
-            <div className="col">
+          <div className="d-flex">
+            <div className="me-3">
               <label className="form-label">
                 Field 1 Name:
                 <input
@@ -191,7 +202,7 @@ export default function Collection() {
                 />
               </label>
             </div>
-            <div className="col">
+            <div>
               <label className="form-label">
                 Field 1 Type:
                 <select
@@ -209,8 +220,8 @@ export default function Collection() {
               </label>
             </div>
           </div>
-          <div className="row">
-            <div className="col">
+          <div className="d-flex">
+            <div className="me-3">
               <label className="form-label">
                 Field 2 Name:
                 <input
@@ -221,7 +232,7 @@ export default function Collection() {
                 />
               </label>
             </div>
-            <div className="col">
+            <div>
               <label className="form-label">
                 Field 2 Type:
                 <select
@@ -239,8 +250,8 @@ export default function Collection() {
               </label>
             </div>
           </div>
-          <div className="row">
-            <div className="col">
+          <div className="d-flex">
+            <div className="me-3">
               <label className="form-label">
                 Field 3 Name:
                 <input
@@ -251,7 +262,7 @@ export default function Collection() {
                 />
               </label>
             </div>
-            <div className="col">
+            <div>
               <label className="form-label">
                 Field 3 Type:
                 <select
@@ -278,7 +289,7 @@ export default function Collection() {
 
       <h2>Collections</h2>
       {collections.length === 0 ? (
-        <p>Коллекций нет</p>
+        <p>No Collections</p>
       ) : (
         <div className="collections-container">
           {collections.map((collection) => (
