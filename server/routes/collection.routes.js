@@ -7,6 +7,6 @@ router.post('/create', collectionController.createCollection);
 router.get('/collections',  collectionController.getCollections);
 router.get('/allCollections',  collectionController.getAllCollections);
 router.get('/collectionById',  collectionController.getCollectionById);
-router.delete('/delete',  collectionController.deleteCollectionById);
+router.delete('/delete',  collectionController.deleteCollection);
 
 module.exports = router;

@@ -24,6 +24,11 @@ export default function Menu() {
               Profile
             </a>
           </li>
+          <li className="nav-item">
+            <a className="nav-link" href="/admin">
+              Admin Panel
+            </a>
+          </li>
         </>
       )}
     </ul>

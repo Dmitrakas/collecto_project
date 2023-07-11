@@ -7,6 +7,7 @@ import Login from './components/Login/Login';
 import Collection from './components/Collection/Collection';
 import Profile from './components/Profile/Profile';
 import CollectionDetails from './components/CollectionDetails/CollectionDetails';
+import AdminPanel from './components/AdminPanel/AdminPanel';
 
 function App() {
   return (
@@ -18,8 +19,9 @@ function App() {
           <Route path="/registration" element={<Registration />} />
           <Route path="/login" element={<Login />} />
           <Route path="/collections" element={<Collection />} />
-          <Route path="/collections/:collectionId" element={<CollectionDetails />} /> 
+          <Route path="/collections/:collectionId" element={<CollectionDetails />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/admin" element={<AdminPanel />} />
         </Routes>
       </div>
     </Router>

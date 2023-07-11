@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
 import { createCollection, getCollections } from "../../actions/collection";
 import CollectionCard from "../CollectionCard/CollectionCard";
 import "./Collection.css";
@@ -36,7 +35,7 @@ export default function Collection() {
 
     fetchCollections();
 
-    const interval = setInterval(fetchCollections, 2000);
+    const interval = setInterval(fetchCollections, 5000);
     return () => clearInterval(interval);
   }, [userId]);
 
@@ -277,13 +276,7 @@ export default function Collection() {
       ) : (
         <div className="collections-container">
           {collections.map((collection) => (
-            <Link
-              to={`/collections/${collection._id}`}
-              key={collection._id}
-              className="collection-card-link"
-            >
-              <CollectionCard collection={collection} />
-            </Link>
+            <CollectionCard collection={collection} />
           ))}
         </div>
       )}

@@ -1,5 +1,4 @@
-const Collection = require('../models/collection');
-
+const Collection = require("../models/collection");
 
 class CollectionController {
   async createCollection(req, res) {
@@ -17,7 +16,7 @@ class CollectionController {
         itemFieldType1,
         itemFieldType2,
         itemFieldType3,
-        userId
+        userId,
       } = req.body;
 
       const tagsArray = JSON.parse(tags);
@@ -35,7 +34,7 @@ class CollectionController {
         itemFieldType1,
         itemFieldType2,
         itemFieldType3,
-        userId
+        userId,
       });
 
       await newCollection.save();
@@ -46,14 +45,13 @@ class CollectionController {
     }
   }
 
-
   async getCollections(req, res) {
     try {
-      const collections = await Collection.find({ userId: req.query.userId })
-      return res.json({ collections })
+      const collections = await Collection.find({ userId: req.query.userId });
+      return res.json({ collections });
     } catch (e) {
-      console.log(e)
-      return res.status(500).json({ message: "Can not get collections" })
+      console.log(e);
+      return res.status(500).json({ message: "Can not get collections" });
     }
   }
 
@@ -77,18 +75,24 @@ class CollectionController {
     }
   }
 
-  async deleteCollectionById(req, res) {
+  async deleteCollection(req, res) {
     try {
-      const collection = await Collection.findAndDelete(req.query.id);
-      console.log(req.query.id)
-      return res.sendStatus(200);
-    } catch (e) {
-      console.log(e);
-      return res.status(500).json({ message: "Can not get collection" });
+      const collectionId = req.params.id;
+
+      const collection = await Collection.findById(collectionId);
+      if (!collection) {
+        return res.status(404).json({ message: 'Коллекция не найдена' });
+      }
+
+      await collection.remove();
+
+      return res.json({ message: 'Коллекция успешно удалена' });
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({ message: 'Внутренняя ошибка сервера' });
     }
   }
+
 }
-
-
 
 module.exports = new CollectionController();

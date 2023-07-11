@@ -41,7 +41,7 @@ export default function CollectionDetails() {
     const interval = setInterval(() => {
       fetchCollectionDetails();
       fetchItems();
-    }, 2000);
+    }, 5000);
 
     return () => clearInterval(interval);
   }, [collectionId]);

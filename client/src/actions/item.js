@@ -20,7 +20,6 @@ export const getItems = async (collectionId) => {
         collectionId: collectionId
       }
     })
-    console.log(response);
     return response.data.items;
   } catch (error) {
     return error.message;

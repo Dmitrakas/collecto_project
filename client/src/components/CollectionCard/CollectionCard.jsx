@@ -11,15 +11,16 @@ export default function CollectionCard({ collection }) {
   };
 
   return (
-    <div className="collection-card-link" onClick={handleCollectionClick}>
-      <div className="collection-card">
-        <h3>Collection Name: {collection.name}</h3>
-        <p>Description: {collection.description}</p>
-        <p>Theme: {collection.theme}</p>
-        <p>Image: {collection.image}</p>
-        <p>Item Name: {collection.itemName}</p>
-        <p>Item Tags: {collection.tags}</p>
-      </div>
+    <div className="collection-card"  key={collection._id}>
+      <h3 className="collection-card-link" onClick={handleCollectionClick}>
+        Collection Name: {collection.name}
+      </h3>
+      <p>Description: {collection.description}</p>
+      <p>Theme: {collection.theme}</p>
+      <p>Image: {collection.image}</p>
+      <p>Item Name: {collection.itemName}</p>
+      <p>Item Tags: {collection.tags}</p>
+      <button>Delete</button>
     </div>
   );
 }
