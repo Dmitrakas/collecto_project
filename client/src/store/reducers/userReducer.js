@@ -13,9 +13,9 @@ export const userSlice = createSlice({
   extraReducers: builder => {
     builder.addCase(login.fulfilled, (state, action) => {
       state.isLoading = false;
-      state.currentUser = action.payload.data.user;
+      state.currentUser = action.payload.user;
       state.isAuth = true;
-      state.token = action.payload.data.token;
+      state.token = action.payload.token;
     })
       .addCase(login.pending, state => {
         state.isLoading = true;

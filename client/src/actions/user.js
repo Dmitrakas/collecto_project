@@ -20,14 +20,14 @@ export const registration = async (username, email, password) => {
 export const login = createAsyncThunk("user/loginUser", async (param) => {
   try {
     const { email, password } = param;
-    console.log(`email: ${email}, password: ${password}`);
     const response = await axios.post("http://localhost:5000/api/auth/login", {
       email,
       password,
     });
     const token = response.data.token;
     localStorage.setItem("token", token);
-    return response;
+    console.log(response);
+    return response.data;
   } catch (error) {
     return error.message;
   }
@@ -35,7 +35,6 @@ export const login = createAsyncThunk("user/loginUser", async (param) => {
 
 export const logout = createAsyncThunk("user/logoutUser", async () => {
   try {
-    localStorage.removeItem("token");
     return console.log("logged out");
   } catch (error) {
     return error.message;

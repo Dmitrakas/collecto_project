@@ -11,7 +11,7 @@ export default function CollectionCard({ collection }) {
   };
 
   return (
-    <div className="collection-card"  key={collection._id}>
+    <div className="collection-card">
       <h3 className="collection-card-link" onClick={handleCollectionClick}>
         Collection Name: {collection.name}
       </h3>

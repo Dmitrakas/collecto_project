@@ -11,7 +11,8 @@ export const collectionSlice = createSlice({
   extraReducers: builder => {
     builder.addCase(createCollection.fulfilled, (state, action) => {
       state.isLoading = false;
-      state.collections = action.payload.data;
+      state.collections = action.payload;
+      console.log(state.collections)
     })
       .addCase(createCollection.pending, state => {
         state.isLoading = true;

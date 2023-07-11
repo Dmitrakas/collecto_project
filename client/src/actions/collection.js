@@ -2,7 +2,7 @@ import axios from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
 export const createCollection = createAsyncThunk(
-  'user/createCollection',
+  'collection/createCollection',
   async (param) => {
     try {
       const {
@@ -18,7 +18,7 @@ export const createCollection = createAsyncThunk(
         itemFieldType1,
         itemFieldType2,
         itemFieldType3,
-        userId
+        userId,
       } = param;
 
       const tagsArray = JSON.parse(tags);
@@ -36,10 +36,10 @@ export const createCollection = createAsyncThunk(
         itemFieldType1,
         itemFieldType2,
         itemFieldType3,
-        userId
+        userId,
       });
 
-      return response;
+      return response.data;
     } catch (error) {
       return error.message;
     }

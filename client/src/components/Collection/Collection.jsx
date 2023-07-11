@@ -276,7 +276,7 @@ export default function Collection() {
       ) : (
         <div className="collections-container">
           {collections.map((collection) => (
-            <CollectionCard collection={collection} />
+            <CollectionCard key={collection._id} collection={collection} />
           ))}
         </div>
       )}

@@ -2,7 +2,7 @@ import axios from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
 export const createItem = createAsyncThunk(
-  'user/createCollection',
+  'item/createItem',
   async (param) => {
     try {
       const response = await axios.post('http://localhost:5000/api/item/create', param);

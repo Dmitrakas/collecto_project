@@ -28,6 +28,7 @@ export default function AdminPanel() {
             <tr>
               <th>Username</th>
               <th>Email</th>
+              <th>Id</th>
               <th>Admin</th>
             </tr>
           </thead>
@@ -36,7 +37,8 @@ export default function AdminPanel() {
               <tr key={user._id}>
                 <td>{user.username}</td>
                 <td>{user.email}</td>
-                <td>{user.isAdmin ? 'Yes' : 'No'}</td>
+                <td>{user._id}</td>
+                <td>{user.isAdmin ? 'true' : 'false'}</td>
               </tr>
             ))}
           </tbody>
