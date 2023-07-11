@@ -18,6 +18,7 @@ export default function CollectionCard({ collection }) {
         <p>Theme: {collection.theme}</p>
         <p>Image: {collection.image}</p>
         <p>Item Name: {collection.itemName}</p>
+        <p>Item Tags: {collection.tags}</p>
       </div>
     </div>
   );

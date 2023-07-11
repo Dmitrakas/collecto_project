@@ -6,14 +6,12 @@ export const collectionSlice = createSlice({
   initialState: {
     collections: [],
     isLoading: false,
-    collectionId: ''
   },
   reducers: {},
   extraReducers: builder => {
     builder.addCase(createCollection.fulfilled, (state, action) => {
       state.isLoading = false;
       state.collections = action.payload.data;
-      state.collectionId = action.payload.data._id;
     })
       .addCase(createCollection.pending, state => {
         state.isLoading = true;
@@ -21,7 +19,6 @@ export const collectionSlice = createSlice({
       .addCase(createCollection.rejected, (state) => {
         state.isLoading = false;
         state.collections = [];
-        state.collectionId = '';
       })
   },
 });

@@ -6,28 +6,20 @@ class ItemController {
     try {
       const {
         name,
-        description,
         tags,
-        fieldName1,
-        fieldName2,
-        fieldName3,
-        fieldType1,
-        fieldType2,
-        fieldType3,
+        fieldValue1,
+        fieldValue2,
+        fieldValue3,
         collectionId,
         userId
       } = req.body;
 
       const newItem = new Item({
         name,
-        description,
         tags,
-        fieldName1,
-        fieldName2,
-        fieldName3,
-        fieldType1,
-        fieldType2,
-        fieldType3,
+        fieldValue1,
+        fieldValue2,
+        fieldValue3,
         collectionId,
         userId
       });
@@ -44,11 +36,8 @@ class ItemController {
 
   async getItemsByCollectionId(req, res) {
     try {
-      const { collectionId } = req.params;
-
-      const items = await Item.find({ collectionId });
-
-      res.json(items);
+      const items = await Item.find({ collectionId: req.query.collectionId });
+      return res.json({ items })
     } catch (error) {
       console.error('Error fetching items by collection ID:', error);
       res.status(500).json({ message: 'Failed to fetch items by collection ID' });

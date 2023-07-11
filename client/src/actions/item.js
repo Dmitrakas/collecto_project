@@ -6,9 +6,23 @@ export const createItem = createAsyncThunk(
   async (param) => {
     try {
       const response = await axios.post('http://localhost:5000/api/item/create', param);
-      return response.data;
+      return response;
     } catch (error) {
       throw new Error('Failed to create item: ' + error.message);
     }
   }
 );
+
+export const getItems = async (collectionId) => {
+  try {
+    const response = await axios.get('http://localhost:5000/api/item/itemsByCollectionId', {
+      params: {
+        collectionId: collectionId
+      }
+    })
+    console.log(response);
+    return response.data.items;
+  } catch (error) {
+    return error.message;
+  }
+};

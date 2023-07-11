@@ -2,14 +2,10 @@ const mongoose = require('mongoose');
 
 const itemSchema = new mongoose.Schema({
   name: { type: String, required: true },
-  description: { type: String },
   tags: { type: [String] },
-  fieldName1: { type: String },
-  fieldName2: { type: String },
-  fieldName3: { type: String },
-  fieldType1: { type: String },
-  fieldType2: { type: String },
-  fieldType3: { type: String },
+  fieldValue1: { type: String },
+  fieldValue2: { type: String },
+  fieldValue3: { type: String },
   collectionId: { type: mongoose.Schema.Types.ObjectId, ref: 'Collection', required: true },
   userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
 }, { timestamps: true });

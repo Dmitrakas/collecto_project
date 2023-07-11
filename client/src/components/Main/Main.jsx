@@ -24,7 +24,7 @@ export default function Main() {
   return (
     <div className="main-container">
       <h2>All Collections</h2>
-      {collections.length === 0 ? (
+      {(collections.length === 0 || collections === undefined || collections === 'Network Error') ? (
         <p>Коллекций нет</p>
       ) : (
         <div className="main-container-collections">

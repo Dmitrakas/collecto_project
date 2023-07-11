@@ -161,33 +161,6 @@ export default function Collection() {
           />
         </div>
 
-        <h2>Item fields</h2>
-        <div className="mb-3">
-          <label htmlFor="itemName" className="form-label">
-            Name:
-          </label>
-          <input
-            type="text"
-            className="form-control"
-            id="itemName"
-            value={itemName}
-            onChange={(e) => setItemName(e.target.value)}
-            required
-          />
-        </div>
-        <div className="mb-3">
-          <label htmlFor="tags" className="form-label">
-            Tags:
-          </label>
-          <input
-            type="text"
-            className="form-control"
-            id="tags"
-            value={tags}
-            onChange={(e) => setTags(e.target.value)}
-          />
-        </div>
-
         <div className="mb-3">
           <p>Additional item fields:</p>
           <div className="d-flex">
@@ -211,6 +184,9 @@ export default function Collection() {
                   onChange={(e) => setItemFieldType1(e.target.value)}
                   required
                 >
+                  <option value="" disabled>
+                    Choose type...
+                  </option>
                   <option value="string">String</option>
                   <option value="number">Number</option>
                   <option value="text">Text</option>
@@ -241,6 +217,9 @@ export default function Collection() {
                   onChange={(e) => setItemFieldType2(e.target.value)}
                   required
                 >
+                  <option value="" disabled>
+                    Choose type...
+                  </option>
                   <option value="string">String</option>
                   <option value="number">Number</option>
                   <option value="text">Text</option>
@@ -271,6 +250,9 @@ export default function Collection() {
                   onChange={(e) => setItemFieldType3(e.target.value)}
                   required
                 >
+                  <option value="" disabled>
+                    Choose type...
+                  </option>
                   <option value="string">String</option>
                   <option value="number">Number</option>
                   <option value="text">Text</option>
@@ -288,7 +270,9 @@ export default function Collection() {
       </form>
 
       <h2>Collections</h2>
-      {collections.length === 0 ? (
+      {collections.length === 0 ||
+      collections === undefined ||
+      collections === "Network Error" ? (
         <p>No Collections</p>
       ) : (
         <div className="collections-container">

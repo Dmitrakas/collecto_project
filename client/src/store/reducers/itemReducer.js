@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { createItem } from '../../actions/item'
 
-export const collectionSlice = createSlice({
+export const itemSlice = createSlice({
   name: 'item',
   initialState: {
     items: [],

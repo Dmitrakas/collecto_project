@@ -20,13 +20,16 @@ export const createCollection = createAsyncThunk(
         itemFieldType3,
         userId
       } = param;
+
+      const tagsArray = JSON.parse(tags);
+
       const response = await axios.post('http://localhost:5000/api/collection/create', {
         name,
         description,
         theme,
         image,
         itemName,
-        tags,
+        tags: tagsArray,
         itemFieldName1,
         itemFieldName2,
         itemFieldName3,
@@ -34,13 +37,15 @@ export const createCollection = createAsyncThunk(
         itemFieldType2,
         itemFieldType3,
         userId
-      })
+      });
+
       return response;
     } catch (error) {
-      return (error.message);
+      return error.message;
     }
   }
 );
+
 
 export const getCollections = async (userId) => {
   try {
@@ -76,3 +81,18 @@ export const getCollectionById = async (id) => {
     return error.message;
   }
 };
+
+export const deleteCollectionById = async (id) => {
+  try {
+    const response = await axios.delete('http://localhost:5000/api/collection/delete', {
+      params: {
+        id: id
+      }
+    });
+    console.log(response);
+    return response;
+  } catch (error) {
+    return error.message;
+  }
+};
+
