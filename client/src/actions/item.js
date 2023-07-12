@@ -25,3 +25,14 @@ export const getItems = async (collectionId) => {
     return error.message;
   }
 };
+
+
+export const deleteItemById = async (id) => {
+  try {
+    const response = await axios.delete(`http://localhost:5000/api/item/delete/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    return error.message;
+  }
+};

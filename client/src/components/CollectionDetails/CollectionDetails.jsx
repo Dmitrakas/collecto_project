@@ -4,6 +4,7 @@ import { getCollectionById } from "../../actions/collection";
 import { useDispatch } from "react-redux";
 import { createItem, getItems } from "../../actions/item";
 import "./CollectionDetails.css";
+import ItemCard from "../ItemCard/ItemCard";
 
 export default function CollectionDetails() {
   const { collectionId } = useParams();
@@ -201,18 +202,7 @@ export default function CollectionDetails() {
       ) : (
         <div className="collections-container">
           {items.map((item) => (
-            <div className="item-card" key={item._id}>
-              <h3>Item Name: {item.name}</h3>
-              <p>
-                {collection.itemFieldName1} : {item.fieldValue1}
-              </p>
-              <p>
-                {collection.itemFieldName2} : {item.fieldValue2}
-              </p>
-              <p>
-                {collection.itemFieldName3} : {item.fieldValue3}
-              </p>
-            </div>
+            <ItemCard item={item} collection={collection} />
           ))}
         </div>
       )}

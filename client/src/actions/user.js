@@ -50,3 +50,54 @@ export const getAllUsers = async () => {
     throw error;
   }
 };
+
+export const blockUser = async (userId) => {
+  try {
+    const response = await axios.put(`http://localhost:5000/api/user/${userId}/block`);
+    return response.data;
+  } catch (error) {
+    console.error("Error blocking user:", error.message);
+    throw error;
+  }
+};
+
+export const unblockUser = async (userId) => {
+  try {
+    const response = await axios.put(`http://localhost:5000/api/user/${userId}/unblock`);
+    return response.data;
+  } catch (error) {
+    console.error("Error unblocking user:", error.message);
+    throw error;
+  }
+};
+
+export const deleteUser = async (userId) => {
+  try {
+    const response = await axios.delete(`http://localhost:5000/api/user/${userId}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error deleting user:", error.message);
+    throw error;
+  }
+};
+
+export const grantAdminAccess = async (userId) => {
+  try {
+    const response = await axios.put(`http://localhost:5000/api/user/${userId}/admin/grant`);
+    return response.data;
+  } catch (error) {
+    console.error("Error granting admin access:", error.message);
+    throw error;
+  }
+};
+
+export const revokeAdminAccess = async (userId) => {
+  try {
+    const response = await axios.put(`http://localhost:5000/api/user/${userId}/admin/revoke`);
+    return response.data;
+  } catch (error) {
+    console.error("Error revoking admin access:", error.message);
+    throw error;
+  }
+};
+
