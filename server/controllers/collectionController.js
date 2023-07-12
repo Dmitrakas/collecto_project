@@ -81,18 +81,17 @@ class CollectionController {
 
       const collection = await Collection.findById(collectionId);
       if (!collection) {
-        return res.status(404).json({ message: 'Коллекция не найдена' });
+        return res.status(404).json({ message: "Коллекция не найдена" });
       }
 
-      await collection.remove();
+      await collection.deleteOne();
 
-      return res.json({ message: 'Коллекция успешно удалена' });
+      return res.status(200).json({ message: "Коллекция успешно удалена" });
     } catch (error) {
       console.log(error);
-      return res.status(500).json({ message: 'Внутренняя ошибка сервера' });
+      return res.status(500).json({ message: "Внутренняя ошибка сервера" });
     }
   }
-
 }
 
 module.exports = new CollectionController();
