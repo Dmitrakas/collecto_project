@@ -1,8 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { createCollection, getCollections } from "../../actions/collection";
 import CollectionCard from "../CollectionCard/CollectionCard";
+import { collectionOptions } from "../../utils/CollectionOptions";
+import ReactMarkdown from "react-markdown";
 import "./Collection.css";
 
 export default function Collection() {
@@ -10,8 +14,6 @@ export default function Collection() {
   const [description, setDescription] = useState("");
   const [theme, setTheme] = useState("");
   const [image, setImage] = useState("");
-  const [itemName, setItemName] = useState("");
-  const [tags, setTags] = useState("");
   const [itemFieldName1, setItemFieldName1] = useState("");
   const [itemFieldName2, setItemFieldName2] = useState("");
   const [itemFieldName3, setItemFieldName3] = useState("");
@@ -49,8 +51,6 @@ export default function Collection() {
           description,
           theme,
           image,
-          itemName,
-          tags,
           itemFieldName1,
           itemFieldName2,
           itemFieldName3,
@@ -64,8 +64,6 @@ export default function Collection() {
       setDescription("");
       setTheme("");
       setImage("");
-      setItemName("");
-      setTags("");
       setItemFieldName1("");
       setItemFieldName2("");
       setItemFieldName3("");
@@ -98,28 +96,37 @@ export default function Collection() {
           <label htmlFor="description" className="form-label">
             Description:
           </label>
-          <input
-            type="text"
+          <textarea
             className="form-control"
             id="description"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             required
           />
+          <ReactMarkdown className="markdown-preview">
+            {description}
+          </ReactMarkdown>
         </div>
+
         <div className="mb-3">
           <label htmlFor="theme" className="form-label">
             Theme:
           </label>
-          <input
-            type="text"
-            className="form-control"
+          <select
+            className="form-select"
             id="theme"
             value={theme}
             onChange={(e) => setTheme(e.target.value)}
             required
-          />
+          >
+            {collectionOptions.map((option) => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))}
+          </select>
         </div>
+
         <div className="mb-3">
           <label htmlFor="image" className="form-label">
             Image:
@@ -134,31 +141,6 @@ export default function Collection() {
         </div>
 
         <h2>Item fields</h2>
-        <div className="mb-3">
-          <label htmlFor="itemName" className="form-label">
-            Name:
-          </label>
-          <input
-            type="text"
-            className="form-control"
-            id="itemName"
-            value={itemName}
-            onChange={(e) => setItemName(e.target.value)}
-            required
-          />
-        </div>
-        <div className="mb-3">
-          <label htmlFor="tags" className="form-label">
-            Tags:
-          </label>
-          <input
-            type="text"
-            className="form-control"
-            id="tags"
-            value={tags}
-            onChange={(e) => setTags(e.target.value)}
-          />
-        </div>
 
         <div className="mb-3">
           <p>Additional item fields:</p>
@@ -264,11 +246,11 @@ export default function Collection() {
         </div>
 
         <button type="submit" className="btn btn-primary">
-          Create
+          <FontAwesomeIcon icon={faPlus} /> Create
         </button>
       </form>
 
-      <h2>Collections</h2>
+      <h2>Collections: </h2>
       {collections.length === 0 ||
       collections === undefined ||
       collections === "Network Error" ? (

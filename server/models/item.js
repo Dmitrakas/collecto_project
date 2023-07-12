@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const itemSchema = new mongoose.Schema({
   name: { type: String, required: true },
-  tags: { type: [String] },
+  tags: { type: String },
   fieldValue1: { type: String },
   fieldValue2: { type: String },
   fieldValue3: { type: String },

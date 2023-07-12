@@ -10,8 +10,6 @@ export const createCollection = createAsyncThunk(
         description,
         theme,
         image,
-        itemName,
-        tags,
         itemFieldName1,
         itemFieldName2,
         itemFieldName3,
@@ -21,15 +19,11 @@ export const createCollection = createAsyncThunk(
         userId,
       } = param;
 
-      const tagsArray = JSON.parse(tags);
-
       const response = await axios.post('http://localhost:5000/api/collection/create', {
         name,
         description,
         theme,
         image,
-        itemName,
-        tags: tagsArray,
         itemFieldName1,
         itemFieldName2,
         itemFieldName3,
@@ -92,4 +86,19 @@ export const deleteCollectionById = async (id) => {
   }
 };
 
+export const updateCollection = createAsyncThunk(
+  'collection/updateCollection',
+  async ({ id, data }) => {
+    try {
+      const response = await axios.put(`http://localhost:5000/api/collection/update/${id}`, data);
 
+      if (!response.data) {
+        throw new Error('Empty response received');
+      }
+
+      return response.data;
+    } catch (error) {
+      return error.message;
+    }
+  }
+);

@@ -3,6 +3,8 @@ import Logo from '../Logo/Logo'
 import Menu from '../Menu/Menu'
 import SearchBar from '../SearchBar/SearchBar'
 import AuthButtons from '../AuthButtons/AuthButtons'
+import './Header.css';
+
 
 export default function Header() {
   return (

@@ -7,6 +7,14 @@ import {
   grantAdminAccess,
   revokeAdminAccess,
 } from "../../actions/user";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faBan,
+  faCheck,
+  faTrashAlt,
+  faUserPlus,
+  faUserMinus,
+} from "@fortawesome/free-solid-svg-icons";
 
 export default function AdminPanel() {
   const [users, setUsers] = useState([]);
@@ -83,56 +91,71 @@ export default function AdminPanel() {
   };
 
   return (
-    <div>
+    <div className="container">
       <h2>User List</h2>
-      {users.length === 0 ? (
-        <p>No users found.</p>
-      ) : (
-        <table className="table table-bordered">
-          <thead>
-            <tr>
-              <th>Username</th>
-              <th>Email</th>
-              <th>Id</th>
-              <th>Admin</th>
-              <th>Blocked</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            {users.map((user) => (
-              <tr key={user._id}>
-                <td>{user.username}</td>
-                <td>{user.email}</td>
-                <td>{user._id}</td>
-                <td>{user.isAdmin ? "true" : "false"}</td>
-                <td>{user.blocked ? "true" : "false"}</td>
-                <td>
-                  <button onClick={() => handleBlockUser(user._id)}>
-                    Block
-                  </button>
-                  <button onClick={() => handleUnblockUser(user._id)}>
-                    Unblock
-                  </button>
-                  <button onClick={() => handleDeleteUser(user._id)}>
-                    Delete
-                  </button>
-                  {!user.isAdmin && (
-                    <button onClick={() => handleGrantAdminAccess(user._id)}>
-                      Grant Admin
-                    </button>
-                  )}
-                  {user.isAdmin && (
-                    <button onClick={() => handleRevokeAdminAccess(user._id)}>
-                      Revoke Admin
-                    </button>
-                  )}
-                </td>
+      <div className="table-responsive">
+        {users.length === 0 ? (
+          <p>No users found.</p>
+        ) : (
+          <table className="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Admin</th>
+                <th>Blocked</th>
+                <th>Action</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-      )}
+            </thead>
+            <tbody>
+              {users.map((user) => (
+                <tr key={user._id}>
+                  <td>{user.username}</td>
+                  <td>{user.email}</td>
+                  <td>{user.isAdmin ? "true" : "false"}</td>
+                  <td>{user.blocked ? "true" : "false"}</td>
+                  <td>
+                    <button
+                      className="btn btn-danger me-2"
+                      onClick={() => handleBlockUser(user._id)}
+                    >
+                      <FontAwesomeIcon icon={faBan} /> Block
+                    </button>
+                    <button
+                      className="btn btn-success me-2"
+                      onClick={() => handleUnblockUser(user._id)}
+                    >
+                      <FontAwesomeIcon icon={faCheck} /> Unblock
+                    </button>
+                    <button
+                      className="btn btn-danger me-2"
+                      onClick={() => handleDeleteUser(user._id)}
+                    >
+                      <FontAwesomeIcon icon={faTrashAlt} /> Delete
+                    </button>
+                    {!user.isAdmin && (
+                      <button
+                        className="btn btn-primary me-2"
+                        onClick={() => handleGrantAdminAccess(user._id)}
+                      >
+                        <FontAwesomeIcon icon={faUserPlus} /> Grant Admin
+                      </button>
+                    )}
+                    {user.isAdmin && (
+                      <button
+                        className="btn btn-warning me-2"
+                        onClick={() => handleRevokeAdminAccess(user._id)}
+                      >
+                        <FontAwesomeIcon icon={faUserMinus} /> Revoke Admin
+                      </button>
+                    )}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
+      </div>
     </div>
   );
 }

@@ -8,8 +8,6 @@ class CollectionController {
         description,
         theme,
         image,
-        itemName,
-        tags,
         itemFieldName1,
         itemFieldName2,
         itemFieldName3,
@@ -19,15 +17,13 @@ class CollectionController {
         userId,
       } = req.body;
 
-      const tagsArray = JSON.parse(tags);
+
 
       const newCollection = new Collection({
         name,
         description,
         theme,
         image,
-        itemName,
-        tags: tagsArray,
         itemFieldName1,
         itemFieldName2,
         itemFieldName3,
@@ -81,15 +77,35 @@ class CollectionController {
 
       const collection = await Collection.findById(collectionId);
       if (!collection) {
-        return res.status(404).json({ message: "Коллекция не найдена" });
+        return res.status(404).json({ message: "Collection not found" });
       }
 
       await collection.deleteOne();
 
-      return res.status(200).json({ message: "Коллекция успешно удалена" });
+      return res.status(200).json({ message: "Collection was successfully deleted" });
     } catch (error) {
       console.log(error);
-      return res.status(500).json({ message: "Внутренняя ошибка сервера" });
+      return res.status(500).json({ message: "Internal Server Error" });
+    }
+  }
+
+  async updateCollection(req, res) {
+    try {
+      const collectionId = req.params.id;
+      const updatedData = req.body;
+
+      const collection = await Collection.findById(collectionId);
+      if (!collection) {
+        return res.status(404).json({ message: "Collection not found" });
+      }
+
+      collection.set(updatedData);
+      await collection.save();
+
+      return res.status(200).json({ message: "Collection updated successfully", collection });
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({ message: "Internal Server Error" });
     }
   }
 }

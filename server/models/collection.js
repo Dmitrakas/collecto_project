@@ -5,8 +5,6 @@ const collectionSchema = new mongoose.Schema({
   description: { type: String, required: true },
   theme: { type: String, required: true },
   image: { type: String },
-  itemName: { type: String, required: true },
-  tags: { type: [String] },
   itemFieldName1: { type: String },
   itemFieldName2: { type: String },
   itemFieldName3: { type: String },

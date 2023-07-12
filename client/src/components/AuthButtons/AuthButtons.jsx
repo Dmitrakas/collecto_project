@@ -16,29 +16,26 @@ function AuthButtons() {
     navigate("/login");
   };
 
-    const handleLogoutClick = () => {
-      dispatch(logout());
-      navigate("/login");
+  const handleLogoutClick = () => {
+    dispatch(logout());
+    navigate("/login");
   };
 
   return (
     <div>
       {isAuth ? (
-        <button className="btn btn-outline-primary" onClick={handleLogoutClick}>
+        <button className="btn btn-danger" onClick={handleLogoutClick}>
           Logout
         </button>
       ) : (
         <div>
           <button
-            className="btn btn-outline-primary me-2"
+            className="btn btn-primary me-2"
             onClick={handleRegistrationClick}
           >
             Registration
           </button>
-          <button
-            className="btn btn-outline-primary"
-            onClick={handleLoginClick}
-          >
+          <button className="btn btn-success" onClick={handleLoginClick}>
             Log in
           </button>
         </div>
