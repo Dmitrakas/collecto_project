@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
+import ReactMarkdown from "react-markdown";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { getCollectionById } from "../../actions/collection";
 import { createItem, getItems } from "../../actions/item";
 import ItemCard from "../ItemCard/ItemCard";
 import "./CollectionDetails.css";
-
 
 export default function CollectionDetails() {
   const { collectionId } = useParams();
@@ -172,8 +172,10 @@ export default function CollectionDetails() {
   return (
     <div className="collection-details">
       <h2>Collection Details</h2>
-      <p>Name: {collection.name}</p>
-      <p>Description: {collection.description}</p>
+      <h3>Name: {collection.name}</h3>
+      <div className="card-text">
+        Description: <ReactMarkdown>{collection.description}</ReactMarkdown>
+      </div>
       <p>Theme: {collection.theme}</p>
       <p>Image: {collection.image}</p>
 
@@ -291,7 +293,6 @@ export default function CollectionDetails() {
                   <ItemCard
                     key={item._id}
                     item={item}
-                    collection={collection}
                   />
                 ))
               )}

@@ -9,7 +9,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { deleteItemById, updateItem } from "../../actions/item";
 
-export default function ItemCard({ item, collection }) {
+export default function ItemCard({ item }) {
   const dispatch = useDispatch();
   const [isEditing, setIsEditing] = useState(false);
   const [name, setName] = useState(item.name);

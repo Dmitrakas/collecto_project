@@ -16,7 +16,6 @@ import {
 import { collectionOptions } from "../../utils/CollectionOptions";
 import "./CollectionCard.css";
 
-
 export default function CollectionCard({ collection }) {
   const dispatch = useDispatch();
   const [isEditing, setIsEditing] = useState(false);
@@ -136,10 +135,10 @@ export default function CollectionCard({ collection }) {
             >
               <h3 className="card-title">Collection Name: {collection.name}</h3>
             </Link>
-            <p className="card-text">
+            <div className="card-text">
               Description:{" "}
               <ReactMarkdown>{collection.description}</ReactMarkdown>
-            </p>
+            </div>
             <p className="card-text">Theme: {collection.theme}</p>
             <p className="card-text">Image: {collection.image}</p>
             <button className="btn btn-primary me-2" onClick={handleEditClick}>

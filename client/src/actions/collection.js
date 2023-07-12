@@ -102,3 +102,12 @@ export const updateCollection = createAsyncThunk(
     }
   }
 );
+
+export const getLargestCollections = async () => {
+  try {
+    const response = await axios.get('http://localhost:5000/api/collection/largest');
+    return response.data.largestCollections;
+  } catch (error) {
+    return error.message;
+  }
+};
