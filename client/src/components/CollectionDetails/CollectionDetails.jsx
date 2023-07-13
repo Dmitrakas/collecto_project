@@ -44,7 +44,6 @@ export default function CollectionDetails() {
       }
     };
 
-    console.log(tags);
     fetchCollectionDetails();
     fetchItems();
 
@@ -54,7 +53,7 @@ export default function CollectionDetails() {
     }, 5000);
 
     return () => clearInterval(interval);
-  }, [collectionId, tags]);
+  }, [collectionId]);
 
   const handleAddItem = (e) => {
     e.preventDefault();
