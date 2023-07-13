@@ -8,6 +8,7 @@ import {
   faTimes,
 } from "@fortawesome/free-solid-svg-icons";
 import { deleteItemById, updateItem } from "../../actions/item";
+import "./ItemCard.css";
 
 export default function ItemCard({ item }) {
   const dispatch = useDispatch();
@@ -53,6 +54,12 @@ export default function ItemCard({ item }) {
     }
   };
 
+  const handleTagChange = (index, value) => {
+    const updatedTags = [...tags];
+    updatedTags[index] = value;
+    setTags(updatedTags);
+  };
+
   return (
     <tr key={item._id}>
       <td>
@@ -69,14 +76,26 @@ export default function ItemCard({ item }) {
       </td>
       <td>
         {isEditing ? (
-          <input
-            type="text"
-            className="form-control"
-            value={tags}
-            onChange={(e) => setTags(e.target.value)}
-          />
+          <>
+            {item.tags.map((tag, index) => (
+              <div key={index} className="tag-circle">
+                <input
+                  type="text"
+                  className="form-control"
+                  value={tags[index]}
+                  onChange={(e) => handleTagChange(index, e.target.value)}
+                />
+              </div>
+            ))}
+          </>
         ) : (
-          item.tags
+          <>
+            {item.tags.map((tag, index) => (
+              <div key={index} className="tag-circle">
+                <button className="btn btn-primary">{tag}</button>
+              </div>
+            ))}
+          </>
         )}
       </td>
       <td>

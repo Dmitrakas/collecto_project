@@ -5,6 +5,7 @@ export const createItem = createAsyncThunk(
   'item/createItem',
   async (param) => {
     try {
+      console.log(param);
       const response = await axios.post('http://localhost:5000/api/item/create', param);
       return response.data;
     } catch (error) {

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import ReactMarkdown from "react-markdown";
+import { WithContext as ReactTags } from "react-tag-input";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { getCollectionById } from "../../actions/collection";
@@ -13,7 +14,7 @@ export default function CollectionDetails() {
   const { collectionId } = useParams();
   const [collection, setCollection] = useState(null);
   const [name, setName] = useState("");
-  const [tags, setTags] = useState("");
+  const [tags, setTags] = useState([]);
   const [newItemValues, setNewItemValues] = useState({
     itemValue1: "",
     itemValue2: "",
@@ -43,6 +44,7 @@ export default function CollectionDetails() {
       }
     };
 
+    console.log(tags);
     fetchCollectionDetails();
     fetchItems();
 
@@ -52,7 +54,7 @@ export default function CollectionDetails() {
     }, 5000);
 
     return () => clearInterval(interval);
-  }, [collectionId]);
+  }, [collectionId, tags]);
 
   const handleAddItem = (e) => {
     e.preventDefault();
@@ -69,7 +71,7 @@ export default function CollectionDetails() {
         })
       );
       setName("");
-      setTags("");
+      setTags([]);
       setNewItemValues({
         itemValue1: "",
         itemValue2: "",
@@ -194,18 +196,27 @@ export default function CollectionDetails() {
             required
           />
         </div>
+
         <div className="mb-3">
           <label htmlFor="tags" className="form-label">
             Tags:
           </label>
-          <input
-            type="text"
-            className="form-control"
-            id="tags"
-            value={tags}
-            onChange={(e) => setTags(e.target.value)}
+          <ReactTags
+            tags={tags.map((tag, index) => ({ id: tag, text: tag }))}
+            handleDelete={(index) => {
+              const newTags = tags.filter((_, i) => i !== index);
+              setTags(newTags);
+            }}
+            handleAddition={(tag) => {
+              setTags([...tags, tag.text]);
+            }}
+            handleInputChange={() => {}}
+            placeholder="Add tags"
+            allowDragDrop={false}
+            autofocus={false}
           />
         </div>
+
         <div className="mb-3">
           <label className="form-label">{collection.itemFieldName1}:</label>
           {renderInputField(
@@ -290,10 +301,7 @@ export default function CollectionDetails() {
                 </tr>
               ) : (
                 sortedItems.map((item) => (
-                  <ItemCard
-                    key={item._id}
-                    item={item}
-                  />
+                  <ItemCard key={item._id} item={item} />
                 ))
               )}
             </tbody>
