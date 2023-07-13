@@ -1,5 +1,5 @@
 const Item = require('../models/item');
-
+const Comment = require('../models/comment');
 
 class ItemController {
   async createItem(req, res) {
@@ -51,14 +51,16 @@ class ItemController {
         return res.status(404).json({ message: "Item not found" });
       }
 
+      await Comment.deleteMany({ itemId: item._id });
       await item.deleteOne();
 
-      return res.status(200).json({ message: "Item was successfully deleted" });
+      return res.status(200).json({ message: "Item and associated comments deleted successfully" });
     } catch (error) {
       console.log(error);
       return res.status(500).json({ message: "Internal Server Error" });
     }
   }
+
 
   async updateItem(req, res) {
     try {

@@ -1,4 +1,8 @@
 const User = require('../models/user');
+const Collection = require('../models/collection');
+const Item = require('../models/item');
+const Comment = require('../models/comment');
+
 
 class UserController {
   async getAllUsers(req, res) {
@@ -64,13 +68,19 @@ class UserController {
       if (!user) {
         return res.status(404).json({ error: 'User not found' });
       }
+
+      await Collection.deleteMany({ userId: user._id });
+      await Item.deleteMany({ userId: user._id });
+      await Comment.deleteMany({ author: user._id });
       await user.deleteOne();
-      res.json({ message: 'User deleted successfully' });
+
+      res.json({ message: 'User, associated collections, items, and comments deleted successfully' });
     } catch (error) {
       console.error('Error deleting user:', error.message);
       res.status(500).json({ error: 'Failed to delete user' });
     }
   }
+
 
   async grantAdminAccess(req, res) {
     const { userId } = req.params;

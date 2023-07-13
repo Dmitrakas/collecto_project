@@ -1,5 +1,6 @@
 const Collection = require("../models/collection");
 const Item = require('../models/item');
+const Comment = require('../models/comment');
 
 class CollectionController {
   async createCollection(req, res) {
@@ -74,19 +75,22 @@ class CollectionController {
     try {
       const collectionId = req.params.id;
 
-      const collection = await Collection.findById(collectionId);
-      if (!collection) {
-        return res.status(404).json({ message: "Collection not found" });
-      }
+      await Collection.deleteOne({ _id: collectionId });
 
-      await collection.deleteOne();
+      const items = await Item.find({ collectionId });
+      const itemIds = items.map((item) => item._id);
 
-      return res.status(200).json({ message: "Collection was successfully deleted" });
+      await Comment.deleteMany({ itemId: { $in: itemIds } });
+      await Item.deleteMany({ collectionId });
+
+      return res.status(200).json({ message: "Collection, items, and associated comments deleted successfully" });
     } catch (error) {
       console.log(error);
       return res.status(500).json({ message: "Internal Server Error" });
     }
   }
+
+
 
   async updateCollection(req, res) {
     try {
