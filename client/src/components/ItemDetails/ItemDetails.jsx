@@ -17,6 +17,7 @@ export default function ItemDetails() {
   const [item, setItem] = useState({});
   const [collection, setCollection] = useState({});
   const [isLoading, setIsLoading] = useState(true);
+  const [isEditing, setIsEditing] = useState(false);
   const [comments, setComments] = useState([]);
   const [newCommentText, setNewCommentText] = useState("");
   const [editedCommentId, setEditedCommentId] = useState(null);
@@ -120,6 +121,14 @@ export default function ItemDetails() {
   const handleEditComment = (commentId, commentText) => {
     setEditedCommentId(commentId);
     setEditedCommentText(commentText);
+    setIsEditing(true);
+  };
+
+  const handleCancelEdit = () => {
+    setIsEditing(false);
+    setEditedCommentId(null);
+    setEditedCommentText("");
+    console.log(isEditing);
   };
 
   const handleUpdateComment = async (event, commentId) => {
@@ -149,8 +158,8 @@ export default function ItemDetails() {
 
   return (
     <div className="container item-details">
-      <h2>Collection Details</h2>
-      <h3>Name: {item.name}</h3>
+      <h2>Item Details</h2>
+      <h3>Item Name: {item.name}</h3>
       {isLoading || item.tags === undefined || item.tags.length === 0 ? (
         <div className="loader">Loading...</div>
       ) : (
@@ -159,7 +168,7 @@ export default function ItemDetails() {
             <h4>Tags:</h4>
             <div className="tag-container">
               {item.tags.map((tag, index) => (
-                <div key={index} className="tag">
+                <div key={index} className="tag btn btn-primary">
                   {tag}
                 </div>
               ))}
@@ -192,17 +201,30 @@ export default function ItemDetails() {
                       type="text"
                       value={editedCommentText}
                       onChange={(e) => setEditedCommentText(e.target.value)}
+                      className="form-control"
                     />
-                    <button type="submit">Save</button>
+                    <div>
+                      <button type="submit" className="btn btn-primary">
+                        Save
+                      </button>
+                      <button
+                        type="button"
+                        className="btn btn-secondary"
+                        onClick={handleCancelEdit}
+                      >
+                        Cancel
+                      </button>
+                    </div>
                   </form>
                 ) : (
                   <p>{comment.text}</p>
                 )}
+
                 {comment.author === userId && (
                   <div>
                     {comment._id !== editedCommentId && (
                       <button
-                        className="edit-comment-button"
+                        className="edit-comment-button btn btn-secondary"
                         onClick={() =>
                           handleEditComment(comment._id, comment.text)
                         }
@@ -211,7 +233,7 @@ export default function ItemDetails() {
                       </button>
                     )}
                     <button
-                      className="delete-comment-button"
+                      className="delete-comment-button btn btn-danger"
                       onClick={() => handleDeleteComment(comment._id)}
                     >
                       Delete
@@ -227,8 +249,11 @@ export default function ItemDetails() {
                 placeholder="Enter your comment"
                 value={newCommentText}
                 onChange={(e) => setNewCommentText(e.target.value)}
+                className="form-control"
               />
-              <button type="submit">Add Comment</button>
+              <button type="submit" className="btn btn-primary">
+                Add Comment
+              </button>
             </form>
           </div>
         </div>
