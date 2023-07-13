@@ -18,8 +18,6 @@ class CollectionController {
         userId,
       } = req.body;
 
-
-
       const newCollection = new Collection({
         name,
         description,

@@ -48,6 +48,16 @@ export const getAllUsers = async () => {
   }
 };
 
+export const getUserUsernameById = async (userId) => {
+  try {
+    const response = await axios.get(`http://localhost:5000/api/user/username/${userId}`);
+    return response.data.username;
+  } catch (error) {
+    console.error("Error fetching users:", error.message);
+    throw error;
+  }
+};
+
 export const blockUser = async (userId) => {
   try {
     const response = await axios.put(`http://localhost:5000/api/user/${userId}/block`);

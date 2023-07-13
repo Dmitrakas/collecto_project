@@ -14,7 +14,6 @@ class ItemController {
         userId
       } = req.body;
 
-
       const newItem = new Item({
         name,
         tags,
@@ -32,8 +31,6 @@ class ItemController {
       res.status(500).json({ message: 'Failed to create item' });
     }
   };
-
-
 
   async getItemsByCollectionId(req, res) {
     try {
@@ -80,6 +77,26 @@ class ItemController {
     } catch (error) {
       console.log(error);
       return res.status(500).json({ message: "Internal Server Error" });
+    }
+  }
+
+  async getRecentItems(req, res) {
+    try {
+      const items = await Item.find().sort({ _id: -1 }).limit(10);
+      return res.json({ items });
+    } catch (error) {
+      console.error('Error fetching recent items:', error);
+      res.status(500).json({ message: 'Failed to fetch recent items' });
+    }
+  };
+
+  async getItemById(req, res) {
+    try {
+      const item = await Item.findById(req.query.id);
+      return res.json({ item });
+    } catch (e) {
+      console.log(e);
+      return res.status(500).json({ message: "Can not get item" });
     }
   }
 

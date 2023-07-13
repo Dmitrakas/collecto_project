@@ -11,6 +11,20 @@ class UserController {
     }
   }
 
+  async getUsernameById(req, res) {
+    const { userId } = req.params;
+    try {
+      const user = await User.findById(userId);
+      if (!user) {
+        return res.status(404).json({ error: 'User not found' });
+      }
+      res.json({ username: user.username });
+    } catch (error) {
+      console.error('Error fetching username:', error.message);
+      res.status(500).json({ error: 'Failed to fetch username' });
+    }
+  }
+
   async blockUser(req, res) {
     const { userId } = req.params;
     try {

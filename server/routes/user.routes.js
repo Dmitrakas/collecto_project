@@ -9,5 +9,6 @@ router.put('/:userId/unblock', userController.unblockUser);
 router.delete('/:userId', userController.deleteUser);
 router.put('/:userId/admin/grant', userController.grantAdminAccess);
 router.put('/:userId/admin/revoke', userController.revokeAdminAccess);
+router.get('/username/:userId', userController.getUsernameById);
 
 module.exports = router;

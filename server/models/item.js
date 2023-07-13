@@ -8,7 +8,10 @@ const itemSchema = new mongoose.Schema({
   fieldValue3: { type: String },
   collectionId: { type: mongoose.Schema.Types.ObjectId, ref: 'Collection', required: true },
   userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+  comments: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Comment' }],
+  likes: { type: Number, default: 0 },
 }, { timestamps: true });
+
 
 const Item = mongoose.model('Item', itemSchema);
 

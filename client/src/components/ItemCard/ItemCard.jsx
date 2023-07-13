@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faEdit,
@@ -71,7 +72,12 @@ export default function ItemCard({ item }) {
             onChange={(e) => setName(e.target.value)}
           />
         ) : (
-          item.name
+          <Link
+            to={`/collections/${item.collectionId}/${item._id}`}
+            state={{ collectionId: item.collectionId, itemId: item._id }}
+          >
+            {item.name}
+          </Link>
         )}
       </td>
       <td>

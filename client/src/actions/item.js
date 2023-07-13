@@ -26,6 +26,15 @@ export const getItems = async (collectionId) => {
   }
 };
 
+export const getRecentItems = async () => {
+  try {
+    const response = await axios.get('http://localhost:5000/api/item/recent')
+    return response.data.items;
+  } catch (error) {
+    return error.message;
+  }
+};
+
 
 export const deleteItemById = async (id) => {
   try {
@@ -54,4 +63,17 @@ export const updateItem = createAsyncThunk(
     }
   }
 );
+
+export const getItemById = async (id) => {
+  try {
+    const response = await axios.get('http://localhost:5000/api/item/itemById', {
+      params: {
+        id: id
+      }
+    });
+    return response.data.item;
+  } catch (error) {
+    return error.message;
+  }
+};
 

@@ -5,7 +5,8 @@ const authRouter = require('./routes/auth.routes');
 const userRouter = require('./routes/user.routes');
 const collectionRouter = require('./routes/collection.routes');
 const itemRouter = require('./routes/item.routes');
-const corsMiddleware = require('./middleware/cors.middleware')
+const commentRouter = require('./routes/comment.routes');
+const corsMiddleware = require('./middleware/cors.middleware');
 
 
 const PORT = process.env.PORT || config.get('serverPort');
@@ -18,6 +19,7 @@ app.use('/api/auth', authRouter);
 app.use('/api/user', userRouter);
 app.use('/api/collection', collectionRouter);
 app.use('/api/item', itemRouter);
+app.use('/api/comment', commentRouter);
 
 
 const start = async () => {
