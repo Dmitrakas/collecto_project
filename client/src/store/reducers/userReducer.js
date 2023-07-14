@@ -7,6 +7,7 @@ export const userSlice = createSlice({
     currentUser: {},
     isAuth: false,
     isLoading: false,
+    isAdmin: false,
     token: ''
   },
   reducers: {},
@@ -16,6 +17,7 @@ export const userSlice = createSlice({
       state.currentUser = action.payload.user;
       state.isAuth = true;
       state.token = action.payload.token;
+      state.isAdmin = action.payload.user.isAdmin;
     })
       .addCase(login.pending, state => {
         state.isLoading = true;
@@ -30,6 +32,7 @@ export const userSlice = createSlice({
       state.currentUser = {};
       state.isAuth = false;
       state.token = '';
+      state.isAdmin = false;
     })
   },
 });
