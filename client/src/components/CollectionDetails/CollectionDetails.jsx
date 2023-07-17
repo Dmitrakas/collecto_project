@@ -6,15 +6,17 @@ import { WithContext as ReactTags } from "react-tag-input";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { getCollectionById } from "../../actions/collection";
-import { createItem, getItems } from "../../actions/item";
+import { createItem, getItems, getTopTags } from "../../actions/item";
 import ItemCard from "../ItemCard/ItemCard";
 import "./CollectionDetails.css";
+import "./TagAutocomplete.css";
 
 export default function CollectionDetails() {
   const { collectionId } = useParams();
   const [collection, setCollection] = useState(null);
   const [name, setName] = useState("");
   const [tags, setTags] = useState([]);
+  const [autocompleteTags, setAutocompleteTags] = useState([]);
   const [newItemValues, setNewItemValues] = useState({
     itemValue1: "",
     itemValue2: "",
@@ -54,6 +56,19 @@ export default function CollectionDetails() {
 
     return () => clearInterval(interval);
   }, [collectionId]);
+
+  useEffect(() => {
+    const fetchTags = async () => {
+      try {
+        const tags = await getTopTags();
+        setAutocompleteTags(tags);
+      } catch (error) {
+        console.error("Error fetching tags:", error.message);
+      }
+    };
+
+    fetchTags();
+  }, []);
 
   const handleAddItem = (e) => {
     e.preventDefault();
@@ -213,6 +228,11 @@ export default function CollectionDetails() {
             placeholder="Add tags"
             allowDragDrop={false}
             autofocus={false}
+            suggestions={autocompleteTags.map((tag) => ({
+              id: tag,
+              text: tag,
+            }))}
+            minQueryLength={1}
           />
         </div>
 

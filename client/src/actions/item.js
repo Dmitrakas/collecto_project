@@ -77,3 +77,12 @@ export const getItemById = async (id) => {
   }
 };
 
+export const getTopTags = async () => {
+  try {
+    const response = await axios.get('http://localhost:5000/api/item/topTags');
+    return response.data.tags;
+  } catch (error) {
+    return error.message;
+  }
+};
+

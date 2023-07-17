@@ -102,6 +102,32 @@ class ItemController {
     }
   }
 
+  async getTopTags(req, res) {
+    try {
+      const items = await Item.find({});
+      const tags = items.reduce((acc, item) => {
+        item.tags.forEach(tag => {
+          if (!acc[tag]) {
+            acc[tag] = 1;
+          } else {
+            acc[tag]++;
+          }
+        });
+        return acc;
+      }, {});
+
+      const topTags = Object.entries(tags)
+        .sort((a, b) => b[1] - a[1])
+        .slice(0, 50)
+        .map(([tag]) => tag);
+
+      res.json({ tags: topTags });
+    } catch (error) {
+      console.error('Error fetching top tags:', error);
+      res.status(500).json({ message: 'Failed to fetch top tags' });
+    }
+  }
+
 }
 
 module.exports = new ItemController();
