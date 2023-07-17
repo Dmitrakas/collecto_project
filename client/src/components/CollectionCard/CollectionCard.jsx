@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import ReactMarkdown from "react-markdown";
@@ -54,6 +54,19 @@ export default function CollectionCard({ collection }) {
     } catch (error) {
       console.error("Error fetching collections:", error.message);
     }
+  };
+
+  const handleImage = (e) => {
+    const file = e.target.files[0];
+    setFileToBase(file);
+  };
+
+  const setFileToBase = (file) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+      setImage(reader.result);
+    };
   };
 
   return (
@@ -112,13 +125,15 @@ export default function CollectionCard({ collection }) {
                 Image:
               </label>
               <input
-                type="text"
+                type="file"
                 className="form-control"
                 id="image"
-                value={image}
-                onChange={(e) => setImage(e.target.value)}
+                accept="image/*"
+                onChange={handleImage}
+                required
               />
             </div>
+
             <button className="btn btn-primary me-2" onClick={handleSaveClick}>
               <FontAwesomeIcon icon={faSave} />
             </button>
@@ -132,21 +147,39 @@ export default function CollectionCard({ collection }) {
             <Link
               to={`/collections/${collection._id}`}
               state={{ collectionId: collection._id }}
+              className="card-link"
             >
               <h3 className="card-title">Collection Name: {collection.name}</h3>
             </Link>
             <div className="card-text">
-              Description:{" "}
-              <ReactMarkdown>{collection.description}</ReactMarkdown>
+              <div className="card-description">
+                Description:{" "}
+                <ReactMarkdown>{collection.description}</ReactMarkdown>
+              </div>
+              <p className="card-theme">Theme: {collection.theme}</p>
+              <div className="card-image-container">
+                <img
+                  src={collection.image}
+                  alt="Collection"
+                  className="card-image img-fluid"
+                />
+              </div>
             </div>
-            <p className="card-text">Theme: {collection.theme}</p>
-            <p className="card-text">Image: {collection.image}</p>
-            <button className="btn btn-primary me-2" onClick={handleEditClick}>
-              <FontAwesomeIcon icon={faEdit} />
-            </button>
-            <button className="btn btn-danger" onClick={handleDeletionClick}>
-              <FontAwesomeIcon icon={faTrashAlt} />
-            </button>
+
+            <div className="card-actions">
+              <button
+                className="btn btn-primary card-action"
+                onClick={handleEditClick}
+              >
+                <FontAwesomeIcon icon={faEdit} />
+              </button>
+              <button
+                className="btn btn-danger card-action"
+                onClick={handleDeletionClick}
+              >
+                <FontAwesomeIcon icon={faTrashAlt} />
+              </button>
+            </div>
           </>
         )}
       </div>

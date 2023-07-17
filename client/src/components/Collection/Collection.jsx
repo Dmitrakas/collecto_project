@@ -75,6 +75,19 @@ export default function Collection() {
     }
   };
 
+  const handleImage = (e) => {
+    const file = e.target.files[0];
+    setFileToBase(file);
+  };
+
+  const setFileToBase = (file) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+      setImage(reader.result);
+    };
+  };
+
   return (
     <div className="collection-container">
       <h2>Create Collection</h2>
@@ -132,11 +145,12 @@ export default function Collection() {
             Image:
           </label>
           <input
-            type="text"
+            type="file"
             className="form-control"
             id="image"
-            value={image}
-            onChange={(e) => setImage(e.target.value)}
+            accept="image/*"
+            onChange={handleImage}
+            required
           />
         </div>
 

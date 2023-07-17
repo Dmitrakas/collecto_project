@@ -1,6 +1,7 @@
 const Collection = require("../models/collection");
 const Item = require('../models/item');
 const Comment = require('../models/comment');
+const cloudinary = require('../utils/cloudinary');
 
 class CollectionController {
   async createCollection(req, res) {
@@ -19,11 +20,24 @@ class CollectionController {
         userId,
       } = req.body;
 
+      if (!image) {
+        return res.status(400).json({ message: "Image is missing or invalid" });
+      }
+
+      let result = await cloudinary.uploader.upload(image, {
+        folder: "collection_images",
+        transformation: [
+          { width: 800, height: 600, crop: "limit" },
+          { quality: "auto:low" }
+        ]
+      });
+
+
       const newCollection = new Collection({
         name,
         description,
         theme,
-        image,
+        image: result.secure_url,
         itemFieldName1,
         itemFieldName2,
         itemFieldName3,
@@ -35,9 +49,9 @@ class CollectionController {
 
       await newCollection.save();
       return res.json(newCollection);
-    } catch (e) {
-      console.log(e);
-      return res.status(400).json(e);
+    } catch (error) {
+      console.error("Error creating collection:", error);
+      return res.status(400).json({ message: "Failed to create collection" });
     }
   }
 
@@ -90,8 +104,6 @@ class CollectionController {
     }
   }
 
-
-
   async updateCollection(req, res) {
     try {
       const collectionId = req.params.id;
@@ -100,6 +112,14 @@ class CollectionController {
       const collection = await Collection.findById(collectionId);
       if (!collection) {
         return res.status(404).json({ message: "Collection not found" });
+      }
+
+      if (req.file) {
+        const result = await upload.single('image')(req, res);
+        if (!result || !result.secure_url) {
+          return res.status(500).json({ message: "Failed to upload image" });
+        }
+        updatedData.image = result.secure_url;
       }
 
       collection.set(updatedData);
@@ -134,7 +154,6 @@ class CollectionController {
       res.status(500).json({ message: 'Failed to get largest collections' });
     }
   }
-
 }
 
 module.exports = new CollectionController();

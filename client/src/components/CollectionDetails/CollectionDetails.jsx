@@ -188,12 +188,18 @@ export default function CollectionDetails() {
   return (
     <div className="collection-details">
       <h2>Collection Details</h2>
-      <h3>Name: {collection.name}</h3>
-      <div className="card-text">
+      <h3 className="card-title">Collection Name: {collection.name}</h3>
+      <div className="card-description">
         Description: <ReactMarkdown>{collection.description}</ReactMarkdown>
       </div>
-      <p>Theme: {collection.theme}</p>
-      <p>Image: {collection.image}</p>
+      <p className="card-theme">Theme: {collection.theme}</p>
+      <div className="card-image-container">
+        <img
+          src={collection.image}
+          alt="Collection"
+          className="card-image img-fluid"
+        />
+      </div>
 
       <h3>Add Item</h3>
       <form onSubmit={handleAddItem}>

@@ -8,12 +8,11 @@ const itemRouter = require('./routes/item.routes');
 const commentRouter = require('./routes/comment.routes');
 const corsMiddleware = require('./middleware/cors.middleware');
 
-
 const PORT = process.env.PORT || config.get('serverPort');
 const app = express();
+app.use(express.json({ limit: '10mb' }));
+app.use(express.urlencoded({ limit: '10mb', extended: true }));
 app.use(corsMiddleware);
-app.use(express.json());
-
 
 app.use('/api/auth', authRouter);
 app.use('/api/user', userRouter);

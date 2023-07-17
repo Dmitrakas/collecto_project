@@ -5,7 +5,7 @@ export const createComment = createAsyncThunk(
   'comment/createComment',
   async (commentData) => {
     try {
-      const response = await axios.post('https://collecto-app.onrender.com/api/comment', commentData);
+      const response = await axios.post('http://localhost:5000/api/comment', commentData);
       return response.data;
     } catch (error) {
       throw new Error('Failed to create comment: ' + error.message);
@@ -15,7 +15,7 @@ export const createComment = createAsyncThunk(
 
 export const getCommentsByItemId = async (itemId) => {
   try {
-    const response = await axios.get(`https://collecto-app.onrender.com/api/comment/${itemId}`);
+    const response = await axios.get(`http://localhost:5000/api/comment/${itemId}`);
     return response.data;
   } catch (error) {
     return error.message;
@@ -24,7 +24,7 @@ export const getCommentsByItemId = async (itemId) => {
 
 export const deleteCommentById = async (id) => {
   try {
-    const response = await axios.delete(`https://collecto-app.onrender.com/api/comment/${id}`);
+    const response = await axios.delete(`http://localhost:5000/api/comment/${id}`);
     return response.data;
   } catch (error) {
     console.error(error);
@@ -36,7 +36,7 @@ export const updateComment = createAsyncThunk(
   'comment/updateComment',
   async ({ id, data }) => {
     try {
-      const response = await axios.put(`https://collecto-app.onrender.com/api/comment/${id}`, data);
+      const response = await axios.put(`http://localhost:5000/api/comment/${id}`, data);
 
       if (!response.data) {
         throw new Error('Empty response received');
