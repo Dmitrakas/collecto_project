@@ -1,0 +1,9 @@
+/                        /index.html   200
+/registration            /index.html   200
+/login                   /index.html   200
+/collections             /index.html   200
+/collections/:collectionId     /index.html   200
+/collections/:collectionId/:itemId    /index.html   200
+/profile                 /index.html   200
+/admin                   /index.html   200
+/*                       /index.html   200
