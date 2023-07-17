@@ -5,7 +5,7 @@ export const createItem = createAsyncThunk(
   'item/createItem',
   async (param) => {
     try {
-      const response = await axios.post('http://localhost:5000/api/item/create', param);
+      const response = await axios.post('https://collecto-app.onrender.com/api/item/create', param);
       return response.data;
     } catch (error) {
       throw new Error('Failed to create item: ' + error.message);
@@ -15,7 +15,7 @@ export const createItem = createAsyncThunk(
 
 export const getItems = async (collectionId) => {
   try {
-    const response = await axios.get('http://localhost:5000/api/item/itemsByCollectionId', {
+    const response = await axios.get('https://collecto-app.onrender.com/api/item/itemsByCollectionId', {
       params: {
         collectionId: collectionId
       }
@@ -28,7 +28,7 @@ export const getItems = async (collectionId) => {
 
 export const getRecentItems = async () => {
   try {
-    const response = await axios.get('http://localhost:5000/api/item/recent')
+    const response = await axios.get('https://collecto-app.onrender.com/api/item/recent')
     return response.data.items;
   } catch (error) {
     return error.message;
@@ -38,7 +38,7 @@ export const getRecentItems = async () => {
 
 export const deleteItemById = async (id) => {
   try {
-    const response = await axios.delete(`http://localhost:5000/api/item/delete/${id}`);
+    const response = await axios.delete(`https://collecto-app.onrender.com/api/item/delete/${id}`);
     return response.data;
   } catch (error) {
     console.error(error);
@@ -50,7 +50,7 @@ export const updateItem = createAsyncThunk(
   'item/updateItem',
   async ({ id, data }) => {
     try {
-      const response = await axios.put(`http://localhost:5000/api/item/update/${id}`, data);
+      const response = await axios.put(`https://collecto-app.onrender.com/api/item/update/${id}`, data);
 
       if (!response.data) {
         throw new Error('Empty response received');
@@ -66,7 +66,7 @@ export const updateItem = createAsyncThunk(
 
 export const getItemById = async (id) => {
   try {
-    const response = await axios.get('http://localhost:5000/api/item/itemById', {
+    const response = await axios.get('https://collecto-app.onrender.com/api/item/itemById', {
       params: {
         id: id
       }
