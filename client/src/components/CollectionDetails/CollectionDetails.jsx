@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import ReactMarkdown from "react-markdown";
 import { WithContext as ReactTags } from "react-tag-input";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -25,6 +25,9 @@ export default function CollectionDetails() {
   const [items, setItems] = useState([]);
   const [filter, setFilter] = useState("");
   const [sortOrder, setSortOrder] = useState("asc");
+  const isAdmin = useSelector((state) => state.user.isAdmin);
+  const userId = useSelector((state) => state.user.currentUser._id);
+
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -202,80 +205,84 @@ export default function CollectionDetails() {
       </div>
 
       <h3>Add Item</h3>
-      <form onSubmit={handleAddItem}>
-        <div className="mb-3">
-          <label htmlFor="name" className="form-label">
-            Name:
-          </label>
-          <input
-            type="text"
-            className="form-control"
-            id="name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            required
-          />
-        </div>
+      {isAdmin || userId === collection.userId ? (
+        <form onSubmit={handleAddItem}>
+          <div className="mb-3">
+            <label htmlFor="name" className="form-label">
+              Name:
+            </label>
+            <input
+              type="text"
+              className="form-control"
+              id="name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              required
+            />
+          </div>
 
-        <div className="mb-3">
-          <label htmlFor="tags" className="form-label">
-            Tags:
-          </label>
-          <ReactTags
-            tags={tags.map((tag, index) => ({ id: tag, text: tag }))}
-            handleDelete={(index) => {
-              const newTags = tags.filter((_, i) => i !== index);
-              setTags(newTags);
-            }}
-            handleAddition={(tag) => {
-              setTags([...tags, tag.text]);
-            }}
-            handleInputChange={() => {}}
-            placeholder="Add tags"
-            allowDragDrop={false}
-            autofocus={false}
-            suggestions={autocompleteTags.map((tag) => ({
-              id: tag,
-              text: tag,
-            }))}
-            minQueryLength={1}
-          />
-        </div>
+          <div className="mb-3">
+            <label htmlFor="tags" className="form-label">
+              Tags:
+            </label>
+            <ReactTags
+              tags={tags.map((tag, index) => ({ id: tag, text: tag }))}
+              handleDelete={(index) => {
+                const newTags = tags.filter((_, i) => i !== index);
+                setTags(newTags);
+              }}
+              handleAddition={(tag) => {
+                setTags([...tags, tag.text]);
+              }}
+              handleInputChange={() => {}}
+              placeholder="Add tags"
+              allowDragDrop={false}
+              autofocus={false}
+              suggestions={autocompleteTags.map((tag) => ({
+                id: tag,
+                text: tag,
+              }))}
+              minQueryLength={1}
+            />
+          </div>
 
-        <div className="mb-3">
-          <label className="form-label">{collection.itemFieldName1}:</label>
-          {renderInputField(
-            "itemValue1",
-            newItemValues.itemValue1,
-            collection.itemFieldType1,
-            handleFieldValueChange
-          )}
-        </div>
+          <div className="mb-3">
+            <label className="form-label">{collection.itemFieldName1}:</label>
+            {renderInputField(
+              "itemValue1",
+              newItemValues.itemValue1,
+              collection.itemFieldType1,
+              handleFieldValueChange
+            )}
+          </div>
 
-        <div className="mb-3">
-          <label className="form-label">{collection.itemFieldName2}:</label>
-          {renderInputField(
-            "itemValue2",
-            newItemValues.itemValue2,
-            collection.itemFieldType2,
-            handleFieldValueChange
-          )}
-        </div>
+          <div className="mb-3">
+            <label className="form-label">{collection.itemFieldName2}:</label>
+            {renderInputField(
+              "itemValue2",
+              newItemValues.itemValue2,
+              collection.itemFieldType2,
+              handleFieldValueChange
+            )}
+          </div>
 
-        <div className="mb-3">
-          <label className="form-label">{collection.itemFieldName3}:</label>
-          {renderInputField(
-            "itemValue3",
-            newItemValues.itemValue3,
-            collection.itemFieldType3,
-            handleFieldValueChange
-          )}
-        </div>
+          <div className="mb-3">
+            <label className="form-label">{collection.itemFieldName3}:</label>
+            {renderInputField(
+              "itemValue3",
+              newItemValues.itemValue3,
+              collection.itemFieldType3,
+              handleFieldValueChange
+            )}
+          </div>
 
-        <button type="submit" className="btn btn-primary">
-          <FontAwesomeIcon icon={faPlus} /> Create
-        </button>
-      </form>
+          <button type="submit" className="btn btn-primary">
+            <FontAwesomeIcon icon={faPlus} /> Create
+          </button>
+        </form>
+      ) : (
+        <p>You are not authorized to add an item to this collection.</p>
+      )}
 
       <h3>Items</h3>
       {items.length === 0 ||
@@ -326,7 +333,12 @@ export default function CollectionDetails() {
                 </tr>
               ) : (
                 sortedItems.map((item) => (
-                  <ItemCard key={item._id} item={item} />
+                  <ItemCard
+                    key={item._id}
+                    item={item}
+                    isAdmin={isAdmin}
+                    userId={userId}
+                  />
                 ))
               )}
             </tbody>

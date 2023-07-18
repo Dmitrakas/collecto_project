@@ -3,8 +3,12 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 
 export const createCollection = createAsyncThunk(
   'collection/createCollection',
-  async (param) => {
+  async (param, thunkAPI) => {
+
     try {
+      const state = thunkAPI.getState();
+      const token = state.user.token;
+
       const {
         name,
         description,
@@ -31,6 +35,8 @@ export const createCollection = createAsyncThunk(
         itemFieldType2,
         itemFieldType3,
         userId,
+      }, {
+        headers: { Authorization: `Bearer ${token}` },
       });
 
       return response.data;
@@ -39,6 +45,46 @@ export const createCollection = createAsyncThunk(
     }
   }
 );
+
+export const updateCollection = createAsyncThunk(
+  'collection/updateCollection',
+  async ({ id, userId, data }, thunkAPI) => {
+    try {
+
+      const state = thunkAPI.getState();
+      const token = state.user.token;
+      const response = await axios.put(`http://localhost:5000/api/collection/update/${id}`, data, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      if (!response.data) {
+        throw new Error('Empty response received');
+      }
+
+      return response.data;
+    } catch (error) {
+      return error.message;
+    }
+  }
+);
+
+
+
+export const deleteCollectionById = createAsyncThunk(
+  'collection/deleteCollectionById',
+  async ({ id, userId }, thunkAPI) => {
+    try {
+      const state = thunkAPI.getState();
+      const token = state.user.token;
+      const response = await axios.delete(`http://localhost:5000/api/collection/delete/${id}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      return response.data;
+    } catch (error) {
+      console.error(error);
+      return error.message;
+    }
+  });
 
 
 export const getCollections = async (userId) => {
@@ -75,33 +121,6 @@ export const getCollectionById = async (id) => {
     return error.message;
   }
 };
-
-export const deleteCollectionById = async (id) => {
-  try {
-    const response = await axios.delete(`http://localhost:5000/api/collection/delete/${id}`);
-    return response.data;
-  } catch (error) {
-    console.error(error);
-    return error.message;
-  }
-};
-
-export const updateCollection = createAsyncThunk(
-  'collection/updateCollection',
-  async ({ id, data }) => {
-    try {
-      const response = await axios.put(`http://localhost:5000/api/collection/update/${id}`, data);
-
-      if (!response.data) {
-        throw new Error('Empty response received');
-      }
-
-      return response.data;
-    } catch (error) {
-      return error.message;
-    }
-  }
-);
 
 export const getLargestCollections = async () => {
   try {

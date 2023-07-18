@@ -6,6 +6,7 @@ const cloudinary = require('../utils/cloudinary');
 class CollectionController {
   async createCollection(req, res) {
     try {
+
       const {
         name,
         description,
@@ -17,8 +18,12 @@ class CollectionController {
         itemFieldType1,
         itemFieldType2,
         itemFieldType3,
-        userId,
+        userId
       } = req.body;
+
+      if (req.user.id !== userId && req.user.isAdmin !== true) {
+        return res.status(401).json({ message: "User is not Authorized!" });
+      }
 
       let imageUrl = "";
       let imageId = "";
@@ -60,6 +65,71 @@ class CollectionController {
     }
   }
 
+  async deleteCollection(req, res) {
+    try {
+      const collectionId = req.params.id;
+      const userId = req.params.userId;
+
+      if (req.user.id !== userId && req.user.isAdmin !== true) {
+        return res.status(401).json({ message: "User is not Authorized!" });
+      }
+
+      const collection = await Collection.findById(collectionId);
+      if (collection.imageId) {
+        const imgId = collection.imageId;
+        await cloudinary.uploader.destroy(imgId);
+      }
+
+      await Collection.deleteOne({ _id: collectionId });
+
+      const items = await Item.find({ collectionId });
+      const itemIds = items.map((item) => item._id);
+
+      await Comment.deleteMany({ itemId: { $in: itemIds } });
+      await Item.deleteMany({ collectionId });
+
+      return res.status(200).json({ message: "Collection, items, and associated comments deleted successfully" });
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({ message: "Internal Server Error" });
+    }
+  }
+
+  async updateCollection(req, res) {
+    try {
+
+      const collectionId = req.params.id;
+      const userId = req.params.userId;
+      const updatedData = req.body;
+
+      if (req.user.id !== userId && req.user.isAdmin !== true) {
+        return res.status(401).json({ message: "User is not Authorized!" });
+      }
+
+      const collection = await Collection.findById(collectionId);
+      if (!collection) {
+        return res.status(404).json({ message: "Collection not found" });
+      }
+
+      if (req.file) {
+        const result = await upload.single('image')(req, res);
+        if (!result || !result.secure_url) {
+          return res.status(500).json({ message: "Failed to upload image" });
+        }
+        updatedData.image = result.secure_url;
+        updatedData.imageId = result.public_id;
+      }
+
+      collection.set(updatedData);
+      await collection.save();
+
+      return res.status(200).json({ message: "Collection updated successfully", collection });
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({ message: "Internal Server Error" });
+    }
+  }
+
   async getCollections(req, res) {
     try {
       const collections = await Collection.find({ userId: req.query.userId });
@@ -87,59 +157,6 @@ class CollectionController {
     } catch (e) {
       console.log(e);
       return res.status(500).json({ message: "Can not get collection" });
-    }
-  }
-
-  async deleteCollection(req, res) {
-    try {
-      const collectionId = req.params.id;
-      const collection = await Collection.findById(collectionId);
-      if (collection.imageId) {
-        const imgId = collection.imageId;
-        await cloudinary.uploader.destroy(imgId);
-      }
-
-      await Collection.deleteOne({ _id: collectionId });
-
-      const items = await Item.find({ collectionId });
-      const itemIds = items.map((item) => item._id);
-
-      await Comment.deleteMany({ itemId: { $in: itemIds } });
-      await Item.deleteMany({ collectionId });
-
-      return res.status(200).json({ message: "Collection, items, and associated comments deleted successfully" });
-    } catch (error) {
-      console.log(error);
-      return res.status(500).json({ message: "Internal Server Error" });
-    }
-  }
-
-  async updateCollection(req, res) {
-    try {
-      const collectionId = req.params.id;
-      const updatedData = req.body;
-
-      const collection = await Collection.findById(collectionId);
-      if (!collection) {
-        return res.status(404).json({ message: "Collection not found" });
-      }
-
-      if (req.file) {
-        const result = await upload.single('image')(req, res);
-        if (!result || !result.secure_url) {
-          return res.status(500).json({ message: "Failed to upload image" });
-        }
-        updatedData.image = result.secure_url;
-        updatedData.imageId = result.public_id;
-      }
-
-      collection.set(updatedData);
-      await collection.save();
-
-      return res.status(200).json({ message: "Collection updated successfully", collection });
-    } catch (error) {
-      console.log(error);
-      return res.status(500).json({ message: "Internal Server Error" });
     }
   }
 

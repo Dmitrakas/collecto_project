@@ -35,7 +35,9 @@ export default function CollectionCard({ collection }) {
       theme,
       image,
     };
-    dispatch(updateCollection({ id: collection._id, data }));
+    dispatch(
+      updateCollection({ id: collection._id, userId: collection.userId, data })
+    );
 
     setIsEditing(false);
   };
@@ -50,7 +52,12 @@ export default function CollectionCard({ collection }) {
 
   const handleDeletionClick = async () => {
     try {
-      await deleteCollectionById(collection._id);
+      dispatch(
+        deleteCollectionById({
+          id: collection._id,
+          userId: collection.userId,
+        })
+      );
     } catch (error) {
       console.error("Error fetching collections:", error.message);
     }

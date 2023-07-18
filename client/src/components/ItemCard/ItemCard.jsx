@@ -11,7 +11,7 @@ import {
 import { deleteItemById, updateItem } from "../../actions/item";
 import "./ItemCard.css";
 
-export default function ItemCard({ item }) {
+export default function ItemCard({ item, isAdmin, userId }) {
   const dispatch = useDispatch();
   const [isEditing, setIsEditing] = useState(false);
   const [name, setName] = useState(item.name);
@@ -33,7 +33,7 @@ export default function ItemCard({ item }) {
       fieldValue3,
     };
 
-    dispatch(updateItem({ id: item._id, data }));
+    dispatch(updateItem({ id: item._id, userId: item.userId, data }));
 
     setIsEditing(false);
   };
@@ -49,7 +49,7 @@ export default function ItemCard({ item }) {
 
   const handleDeletionClick = async () => {
     try {
-      await deleteItemById(item._id);
+      dispatch(deleteItemById({ id: item._id, userId: item.userId }));
     } catch (error) {
       console.error("Error deleting item:", error.message);
     }
@@ -153,12 +153,22 @@ export default function ItemCard({ item }) {
           </>
         ) : (
           <>
-            <button className="btn btn-primary me-2" onClick={handleEditClick}>
-              <FontAwesomeIcon icon={faEdit} />
-            </button>
-            <button className="btn btn-danger" onClick={handleDeletionClick}>
-              <FontAwesomeIcon icon={faTrashAlt} />
-            </button>
+            {isAdmin || userId === item.userId ? (
+              <>
+                <button
+                  className="btn btn-primary me-2"
+                  onClick={handleEditClick}
+                >
+                  <FontAwesomeIcon icon={faEdit} />
+                </button>
+                <button
+                  className="btn btn-danger"
+                  onClick={handleDeletionClick}
+                >
+                  <FontAwesomeIcon icon={faTrashAlt} />
+                </button>
+              </>
+            ) : null}
           </>
         )}
       </td>

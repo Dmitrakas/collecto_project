@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { login, logout } from '../../actions/user'
+import { login, logout, auth } from '../../actions/user'
 
 export const userSlice = createSlice({
   name: 'user',
@@ -8,16 +8,18 @@ export const userSlice = createSlice({
     isAuth: false,
     isLoading: false,
     isAdmin: false,
-    token: ''
+    blocked: false,
+    token: '',
   },
   reducers: {},
   extraReducers: builder => {
     builder.addCase(login.fulfilled, (state, action) => {
       state.isLoading = false;
+      state.token = action.payload.token;
       state.currentUser = action.payload.user;
       state.isAuth = true;
-      state.token = action.payload.token;
       state.isAdmin = action.payload.user.isAdmin;
+      state.blocked = action.payload.user.blocked;
     })
       .addCase(login.pending, state => {
         state.isLoading = true;
@@ -26,13 +28,23 @@ export const userSlice = createSlice({
         state.isLoading = false;
         state.currentUser = {};
       })
-
-    builder.addCase(logout.fulfilled, (state) => {
-      state.isLoading = false;
-      state.currentUser = {};
-      state.isAuth = false;
-      state.token = '';
-      state.isAdmin = false;
-    })
+      .addCase(logout.fulfilled, (state) => {
+        state.isLoading = false;
+        state.currentUser = {};
+        state.isAuth = false;
+        state.token = '';
+        state.isAdmin = false;
+        state.blocked = false;
+      })
+      .addCase(auth.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.token = action.payload.token;
+        state.currentUser = action.payload.user;
+        state.isAdmin = action.payload.user?.isAdmin ?? false;
+        state.blocked = action.payload.user?.blocked ?? false;
+      })
+      .addCase(auth.rejected, (state, action) => {
+        state.isLoading = true;
+      })
   },
 });

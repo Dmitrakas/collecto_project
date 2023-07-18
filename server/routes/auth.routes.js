@@ -37,38 +37,39 @@ router.post('/registration',
   })
 
 router.post('/login', async (req, res) => {
-    try {
-      const { email, password } = req.body;
-      const user = await User.findOne({ email });
-      if (!user) {
-        return res.status(404).send({ message: "user not found" });
-      }
-      const isPasswordValid = bcrypt.compareSync(password, user.password);
-      if (!isPasswordValid) {
-        return res.status(400).send({ message: "Invalid password" });
-      }
-      const token = jwt.sign({ id: user.id }, config.get('secretKey'), { expiresIn: "1h" });
-      return res.json({
-        token,
-        user: {
-          id: user.id,
-          username: user.username,
-          email: user.email,
-          isAdmin: user.isAdmin
-        }
-      })
+  try {
+    const { email, password } = req.body;
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(404).send({ message: "user not found" });
     }
-    catch (err) {
-      console.log(err);
-      res.send({ message: "Server error" });
+    const isPasswordValid = bcrypt.compareSync(password, user.password);
+    if (!isPasswordValid) {
+      return res.status(400).send({ message: "Invalid password" });
     }
-  })
+    const token = jwt.sign({ id: user.id, isAdmin: user.isAdmin }, config.get('secretKey'), { expiresIn: "1h" });
+    return res.json({
+      token,
+      user: {
+        id: user.id,
+        username: user.username,
+        email: user.email,
+        isAdmin: user.isAdmin,
+        blocked: user.blocked
+      }
+    })
+  }
+  catch (err) {
+    console.log(err);
+    res.send({ message: "Server error" });
+  }
+})
 
 router.get('/auth', authMiddleware,
   async (req, res) => {
     try {
       const user = await User.findOne({ _id: req.user.id })
-      const token = jwt.sign({ id: user.id }, config.get("secretKey"), { expiresIn: "1h" })
+      const token = jwt.sign({ id: user.id, isAdmin: user.isAdmin }, config.get("secretKey"), { expiresIn: "1h" })
       return res.json({
         token,
         user: {
@@ -76,6 +77,7 @@ router.get('/auth', authMiddleware,
           username: user.username,
           email: user.email,
           isAdmin: user.isAdmin,
+          blocked: user.blocked
         }
       })
     } catch (e) {

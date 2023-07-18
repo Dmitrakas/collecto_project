@@ -11,9 +11,9 @@ export const registration = async (username, email, password) => {
         password,
       }
     );
-    alert(response.data.message);
-  } catch (e) {
-    alert(e.response.data.message);
+    return response.data;
+  } catch (error) {
+    return error.message;
   }
 };
 
@@ -24,6 +24,21 @@ export const login = createAsyncThunk("user/loginUser", async (param) => {
       email,
       password,
     });
+    return response.data;
+  } catch (error) {
+    return error.message;
+  }
+});
+
+export const auth = createAsyncThunk("user/authUser", async (_, thunkAPI) => {
+  try {
+    const state = thunkAPI.getState();
+    const token = state.user.token;
+
+    const response = await axios.get("http://localhost:5000/api/auth/auth", {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+
     return response.data;
   } catch (error) {
     return error.message;

@@ -14,6 +14,10 @@ class ItemController {
         userId
       } = req.body;
 
+      if (req.user.id !== userId && req.user.isAdmin !== true) {
+        return res.status(401).json({ message: "User is not Authorized!" });
+      }
+
       const newItem = new Item({
         name,
         tags,
@@ -32,19 +36,14 @@ class ItemController {
     }
   };
 
-  async getItemsByCollectionId(req, res) {
-    try {
-      const items = await Item.find({ collectionId: req.query.collectionId });
-      return res.json({ items })
-    } catch (error) {
-      console.error('Error fetching items by collection ID:', error);
-      res.status(500).json({ message: 'Failed to fetch items by collection ID' });
-    }
-  };
-
   async deleteItem(req, res) {
     try {
       const itemId = req.params.id;
+      const userId = req.params.userId;
+
+      if (req.user.id !== userId && req.user.isAdmin !== true) {
+        return res.status(401).json({ message: "User is not Authorized!" });
+      }
 
       const item = await Item.findById(itemId);
       if (!item) {
@@ -65,7 +64,12 @@ class ItemController {
   async updateItem(req, res) {
     try {
       const itemId = req.params.id;
+      const userId = req.params.userId;
       const updatedData = req.body;
+
+      if (req.user.id !== userId && req.user.isAdmin !== true) {
+        return res.status(401).json({ message: "User is not Authorized!" });
+      }
 
       const item = await Item.findById(itemId);
       if (!item) {
@@ -81,6 +85,18 @@ class ItemController {
       return res.status(500).json({ message: "Internal Server Error" });
     }
   }
+
+  async getItemsByCollectionId(req, res) {
+    try {
+      const items = await Item.find({ collectionId: req.query.collectionId });
+      return res.json({ items })
+    } catch (error) {
+      console.error('Error fetching items by collection ID:', error);
+      res.status(500).json({ message: 'Failed to fetch items by collection ID' });
+    }
+  };
+
+
 
   async getRecentItems(req, res) {
     try {

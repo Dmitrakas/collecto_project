@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { createCollection, updateCollection } from '../../actions/collection';
+import { createCollection, updateCollection, deleteCollectionById } from '../../actions/collection';
 
 export const collectionSlice = createSlice({
   name: 'collection',
@@ -30,6 +30,9 @@ export const collectionSlice = createSlice({
       })
       .addCase(updateCollection.rejected, (state) => {
         state.isLoading = false;
-      });
+      })
+      .addCase(deleteCollectionById.fulfilled, (state) => {
+        state.isLoading = true;
+      })
   },
 });
