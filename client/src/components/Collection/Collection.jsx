@@ -150,7 +150,6 @@ export default function Collection() {
             id="image"
             accept="image/*"
             onChange={handleImage}
-            required
           />
         </div>
 

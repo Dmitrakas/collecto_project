@@ -110,10 +110,16 @@ export default function Main() {
                 to={`/collections/${collection._id}`}
                 state={{ collectionId: collection._id }}
               >
-                <h3>Name: {collection.name}</h3>
+                <h3 className="card-title">Collection Name: {collection.name}</h3>
               </Link>
-              <p>Theme: {collection.theme}</p>
-              <p>Image: {collection.image}</p>
+              <p className="card-theme">Theme: {collection.theme}</p>
+              <div className="card-image-container">
+                <img
+                  src={collection.image}
+                  alt="Collection"
+                  className="card-image img-fluid"
+                />
+              </div>
             </div>
           ))}
         </div>

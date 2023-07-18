@@ -20,24 +20,29 @@ class CollectionController {
         userId,
       } = req.body;
 
-      if (!image) {
-        return res.status(400).json({ message: "Image is missing or invalid" });
+      let imageUrl = "";
+      let imageId = "";
+
+      if (image) {
+
+        const result = await cloudinary.uploader.upload(image, {
+          folder: "collection_images",
+          transformation: [
+            { width: 400, height: 400, crop: "limit" },
+            { quality: "auto:low" }
+          ]
+        });
+
+        imageUrl = result.secure_url;
+        imageId = result.public_id;
       }
-
-      let result = await cloudinary.uploader.upload(image, {
-        folder: "collection_images",
-        transformation: [
-          { width: 800, height: 600, crop: "limit" },
-          { quality: "auto:low" }
-        ]
-      });
-
 
       const newCollection = new Collection({
         name,
         description,
         theme,
-        image: result.secure_url,
+        image: imageUrl,
+        imageId: imageId,
         itemFieldName1,
         itemFieldName2,
         itemFieldName3,
@@ -88,6 +93,11 @@ class CollectionController {
   async deleteCollection(req, res) {
     try {
       const collectionId = req.params.id;
+      const collection = await Collection.findById(collectionId);
+      if (collection.imageId) {
+        const imgId = collection.imageId;
+        await cloudinary.uploader.destroy(imgId);
+      }
 
       await Collection.deleteOne({ _id: collectionId });
 
@@ -120,6 +130,7 @@ class CollectionController {
           return res.status(500).json({ message: "Failed to upload image" });
         }
         updatedData.image = result.secure_url;
+        updatedData.imageId = result.public_id;
       }
 
       collection.set(updatedData);

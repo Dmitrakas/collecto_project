@@ -2,7 +2,7 @@ const User = require('../models/user');
 const Collection = require('../models/collection');
 const Item = require('../models/item');
 const Comment = require('../models/comment');
-
+const cloudinary = require('../utils/cloudinary');
 
 class UserController {
   async getAllUsers(req, res) {
@@ -67,6 +67,14 @@ class UserController {
       const user = await User.findById(userId);
       if (!user) {
         return res.status(404).json({ error: 'User not found' });
+      }
+
+      const collections = await Collection.find({ userId: user._id });
+      for (const collection of collections) {
+        if (collection.imageId) {
+          const imgId = collection.imageId;
+          await cloudinary.uploader.destroy(imgId);
+        }
       }
 
       await Collection.deleteMany({ userId: user._id });
