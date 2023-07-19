@@ -22,7 +22,8 @@ export default function ItemDetails() {
   const [newCommentText, setNewCommentText] = useState("");
   const [editedCommentId, setEditedCommentId] = useState(null);
   const [editedCommentText, setEditedCommentText] = useState("");
-  const userId = useSelector((state) => state.user.currentUser.id);
+  const userId = useSelector((state) => state.user?.currentUser?.id);
+  const isAuth = useSelector((state) => state.user.isAuth);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -186,75 +187,81 @@ export default function ItemDetails() {
 
           <div className="comments">
             <h4>Comments:</h4>
-            {comments.map((comment) => (
-              <div key={comment._id + comment.text} className="comment">
-                <p className="comment-author">
-                  Commented by: {comment.username}
-                </p>
-                {comment._id === editedCommentId ? (
-                  <form
-                    onSubmit={(event) =>
-                      handleUpdateComment(event, comment._id)
-                    }
-                  >
-                    <input
-                      type="text"
-                      value={editedCommentText}
-                      onChange={(e) => setEditedCommentText(e.target.value)}
-                      className="form-control"
-                    />
+            {comments.length === 0 ? (
+              <p>No comments yet.</p>
+            ) : (
+              comments.map((comment) => (
+                <div key={comment._id + comment.text} className="comment">
+                  <p className="comment-author">
+                    Commented by: {comment.username}
+                  </p>
+                  {comment._id === editedCommentId && isAuth ? (
+                    <form
+                      onSubmit={(event) =>
+                        handleUpdateComment(event, comment._id)
+                      }
+                    >
+                      <input
+                        type="text"
+                        value={editedCommentText}
+                        onChange={(e) => setEditedCommentText(e.target.value)}
+                        className="form-control"
+                      />
+                      <div>
+                        <button type="submit" className="btn btn-primary">
+                          Save
+                        </button>
+                        <button
+                          type="button"
+                          className="btn btn-secondary"
+                          onClick={handleCancelEdit}
+                        >
+                          Cancel
+                        </button>
+                      </div>
+                    </form>
+                  ) : (
+                    <p>{comment.text}</p>
+                  )}
+
+                  {comment.author === userId && (
                     <div>
-                      <button type="submit" className="btn btn-primary">
-                        Save
-                      </button>
+                      {isAuth && comment.author === userId && (
+                        <button
+                          className="edit-comment-button btn btn-secondary"
+                          onClick={() =>
+                            handleEditComment(comment._id, comment.text)
+                          }
+                        >
+                          Edit
+                        </button>
+                      )}
                       <button
-                        type="button"
-                        className="btn btn-secondary"
-                        onClick={handleCancelEdit}
+                        className="delete-comment-button btn btn-danger"
+                        onClick={() => handleDeleteComment(comment._id)}
                       >
-                        Cancel
+                        Delete
                       </button>
                     </div>
-                  </form>
-                ) : (
-                  <p>{comment.text}</p>
-                )}
+                  )}
+                </div>
+              ))
+            )}
 
-                {comment.author === userId && (
-                  <div>
-                    {comment._id !== editedCommentId && (
-                      <button
-                        className="edit-comment-button btn btn-secondary"
-                        onClick={() =>
-                          handleEditComment(comment._id, comment.text)
-                        }
-                      >
-                        Edit
-                      </button>
-                    )}
-                    <button
-                      className="delete-comment-button btn btn-danger"
-                      onClick={() => handleDeleteComment(comment._id)}
-                    >
-                      Delete
-                    </button>
-                  </div>
-                )}
-              </div>
-            ))}
-
-            <form onSubmit={handleNewCommentSubmit}>
-              <input
-                type="text"
-                placeholder="Enter your comment"
-                value={newCommentText}
-                onChange={(e) => setNewCommentText(e.target.value)}
-                className="form-control"
-              />
-              <button type="submit" className="btn btn-primary">
-                Add Comment
-              </button>
-            </form>
+            {isAuth && (
+              <form onSubmit={handleNewCommentSubmit}>
+                <input
+                  type="text"
+                  placeholder="Enter your comment"
+                  value={newCommentText}
+                  onChange={(e) => setNewCommentText(e.target.value)}
+                  className="form-control"
+                />
+                <button type="submit" className="btn btn-primary">
+                  Add Comment
+                </button>
+              </form>
+            )}
           </div>
         </div>
       )}

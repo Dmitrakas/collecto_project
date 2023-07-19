@@ -15,7 +15,7 @@ import { auth } from './actions/user';
 
 function App() {
   const isAuth = useSelector((state) => state.user.isAuth);
-  const isAdmin = useSelector((state) => state.user.isAdmin);
+  const isAdmin = useSelector((state) => state.user?.currentUser?.isAdmin);
   const dispatch = useDispatch();
 
   useEffect(() => {

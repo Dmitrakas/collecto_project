@@ -17,9 +17,8 @@ export default function Login() {
     try {
       dispatch(login({email, password}));
       navigate('/');
-      console.log('Вход выполнен успешно');
     } catch (error) {
-      console.log('Ошибка входа:', error.message);
+      console.log('Login error:', error.message);
     }
 
     setEmail('');

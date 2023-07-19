@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 
 export default function Menu() {
   const isAuth = useSelector((state) => state.user.isAuth);
-  const isAdmin = useSelector((state) => state.user.isAdmin);
+  const isAdmin = useSelector((state) => state.user?.currentUser?.isAdmin);
 
   return (
     <ul className="navbar-nav mx-auto">

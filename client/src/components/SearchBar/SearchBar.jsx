@@ -22,7 +22,7 @@ function SearchBar({ onSearch }) {
         onChange={handleInputChange}
       />
       <button className="btn btn-outline-danger" onClick={handleSearch}>
-        Найти
+        Search
       </button>
     </div>
   );

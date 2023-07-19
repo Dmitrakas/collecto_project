@@ -7,8 +7,6 @@ export const userSlice = createSlice({
     currentUser: {},
     isAuth: false,
     isLoading: false,
-    isAdmin: false,
-    blocked: false,
     token: '',
   },
   reducers: {},
@@ -18,8 +16,6 @@ export const userSlice = createSlice({
       state.token = action.payload.token;
       state.currentUser = action.payload.user;
       state.isAuth = true;
-      state.isAdmin = action.payload.user.isAdmin;
-      state.blocked = action.payload.user.blocked;
     })
       .addCase(login.pending, state => {
         state.isLoading = true;
@@ -33,15 +29,11 @@ export const userSlice = createSlice({
         state.currentUser = {};
         state.isAuth = false;
         state.token = '';
-        state.isAdmin = false;
-        state.blocked = false;
       })
       .addCase(auth.fulfilled, (state, action) => {
         state.isLoading = false;
         state.token = action.payload.token;
         state.currentUser = action.payload.user;
-        state.isAdmin = action.payload.user?.isAdmin ?? false;
-        state.blocked = action.payload.user?.blocked ?? false;
       })
       .addCase(auth.rejected, (state, action) => {
         state.isLoading = true;

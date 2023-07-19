@@ -14,11 +14,9 @@ export default function Registration() {
 
     try {
       registration(username, email, password);
-      navigate('/');
-
-      console.log('Регистрация успешна');
+      navigate('/login');
     } catch (error) {
-      console.log('Ошибка регистрации:', error.message);
+      console.log('Registration error:', error.message);
     }
 
     setUsername('');
