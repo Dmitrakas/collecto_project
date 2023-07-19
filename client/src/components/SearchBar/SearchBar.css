@@ -1,4 +1,53 @@
 .custom-input {
+  width: 100%;
+}
+
+.btn {
+  margin-top: 8px;
+}
+
+@media (min-width: 320px) and (max-width: 767px) {
+  .custom-input {
+    width: 70%;
+  }
+
+  .btn {
+    margin-top: 0;
+    margin-left: 8px;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  .custom-input {
+    width: 80%;
+  }
+
+  .btn {
+    margin-left: 12px;
+  }
+}
+
+@media (min-width: 992px) and (max-width: 1199px) {
+  .custom-input {
+    width: 90%;
+  }
+
+  .btn {
+    margin-left: 16px;
+  }
+}
+
+@media (min-width: 1200px) and (max-width: 1600px) {
+  .custom-input {
+    width: 300px;
+  }
+
+  .btn {
+    margin-left: 20px;
+  }
+}
+
+.custom-input {
   width: 200px;
   padding: 0.5rem;
   border-radius: 4px;

@@ -89,7 +89,7 @@ export default function Collection() {
   };
 
   return (
-    <div className="collection-container">
+    <div className="collection-info">
       <h2>Create Collection</h2>
       <form onSubmit={handleSubmit}>
         <div className="mb-3">
@@ -269,7 +269,7 @@ export default function Collection() {
       collections === "Network Error" ? (
         <p>No Collections</p>
       ) : (
-        <div className="collections-container">
+        <div className="collections">
           {collections.map((collection) => (
             <CollectionCard key={collection._id} collection={collection} />
           ))}

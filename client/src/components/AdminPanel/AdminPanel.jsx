@@ -18,6 +18,7 @@ import {
 
 export default function AdminPanel() {
   const [users, setUsers] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -90,11 +91,31 @@ export default function AdminPanel() {
     }
   };
 
+  const handleSearchChange = (event) => {
+    setSearchQuery(event.target.value);
+  };
+
+  const filteredUsers = users.filter((user) => {
+    const searchLowercase = searchQuery.toLowerCase();
+    const emailMatch = user.email.toLowerCase().includes(searchLowercase);
+    const usernameMatch = user.username.toLowerCase().includes(searchLowercase);
+    return emailMatch || usernameMatch;
+  });
+
   return (
     <div className="container">
       <h2>User List</h2>
+      <div className="mb-3">
+        <input
+          type="text"
+          className="form-control"
+          placeholder="Search by Email or Username"
+          value={searchQuery}
+          onChange={handleSearchChange}
+        />
+      </div>
       <div className="table-responsive">
-        {users.length === 0 ? (
+        {filteredUsers.length === 0 ? (
           <p>No users found.</p>
         ) : (
           <table className="table table-bordered table-striped">
@@ -108,7 +129,7 @@ export default function AdminPanel() {
               </tr>
             </thead>
             <tbody>
-              {users.map((user) => (
+              {filteredUsers.map((user) => (
                 <tr key={user._id}>
                   <td>{user.username}</td>
                   <td>{user.email}</td>

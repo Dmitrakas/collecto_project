@@ -1,12 +1,10 @@
 import React, { useState } from "react";
 import "./SearchBar.css";
 
-function SearchBar({ onSearch }) {
+function SearchBar() {
   const [searchQuery, setSearchQuery] = useState("");
 
-  const handleSearch = () => {
-    onSearch(searchQuery);
-  };
+  const handleSearch = () => {};
 
   const handleInputChange = (event) => {
     setSearchQuery(event.target.value);

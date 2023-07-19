@@ -1,5 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
+import './Menu.css';
 
 export default function Menu() {
   const isAuth = useSelector((state) => state.user.isAuth);
