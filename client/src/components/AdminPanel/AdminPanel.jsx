@@ -1,20 +1,13 @@
 import React, { useEffect, useState } from "react";
+import { getAllUsers } from "../../actions/user";
+import UserRow from "./UserRow";
 import {
-  getAllUsers,
-  blockUser,
-  unblockUser,
-  deleteUser,
-  grantAdminAccess,
-  revokeAdminAccess,
-} from "../../actions/user";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faBan,
-  faCheck,
-  faTrashAlt,
-  faUserPlus,
-  faUserMinus,
-} from "@fortawesome/free-solid-svg-icons";
+  blockUserAction,
+  unblockUserAction,
+  deleteUserAction,
+  grantAdminAccessAction,
+  revokeAdminAccessAction,
+} from "./userActions";
 
 export default function AdminPanel() {
   const [users, setUsers] = useState([]);
@@ -34,61 +27,23 @@ export default function AdminPanel() {
   }, []);
 
   const handleBlockUser = async (userId) => {
-    try {
-      await blockUser(userId);
-      const updatedUsers = users.map((user) =>
-        user._id === userId ? { ...user, blocked: true } : user
-      );
-      setUsers(updatedUsers);
-    } catch (error) {
-      console.error("Error blocking user:", error.message);
-    }
+    await blockUserAction(userId, users, setUsers);
   };
 
   const handleUnblockUser = async (userId) => {
-    try {
-      await unblockUser(userId);
-      const updatedUsers = users.map((user) =>
-        user._id === userId ? { ...user, blocked: false } : user
-      );
-      setUsers(updatedUsers);
-    } catch (error) {
-      console.error("Error unblocking user:", error.message);
-    }
+    await unblockUserAction(userId, users, setUsers);
   };
 
   const handleDeleteUser = async (userId) => {
-    try {
-      await deleteUser(userId);
-      const updatedUsers = users.filter((user) => user._id !== userId);
-      setUsers(updatedUsers);
-    } catch (error) {
-      console.error("Error deleting user:", error.message);
-    }
+    await deleteUserAction(userId, users, setUsers);
   };
 
   const handleGrantAdminAccess = async (userId) => {
-    try {
-      await grantAdminAccess(userId);
-      const updatedUsers = users.map((user) =>
-        user._id === userId ? { ...user, isAdmin: true } : user
-      );
-      setUsers(updatedUsers);
-    } catch (error) {
-      console.error("Error granting admin access:", error.message);
-    }
+    await grantAdminAccessAction(userId, users, setUsers);
   };
 
   const handleRevokeAdminAccess = async (userId) => {
-    try {
-      await revokeAdminAccess(userId);
-      const updatedUsers = users.map((user) =>
-        user._id === userId ? { ...user, isAdmin: false } : user
-      );
-      setUsers(updatedUsers);
-    } catch (error) {
-      console.error("Error revoking admin access:", error.message);
-    }
+    await revokeAdminAccessAction(userId, users, setUsers);
   };
 
   const handleSearchChange = (event) => {
@@ -130,48 +85,15 @@ export default function AdminPanel() {
             </thead>
             <tbody>
               {filteredUsers.map((user) => (
-                <tr key={user._id}>
-                  <td>{user.username}</td>
-                  <td>{user.email}</td>
-                  <td>{user.isAdmin ? "true" : "false"}</td>
-                  <td>{user.blocked ? "true" : "false"}</td>
-                  <td>
-                    <button
-                      className="btn btn-danger me-2"
-                      onClick={() => handleBlockUser(user._id)}
-                    >
-                      <FontAwesomeIcon icon={faBan} /> Block
-                    </button>
-                    <button
-                      className="btn btn-success me-2"
-                      onClick={() => handleUnblockUser(user._id)}
-                    >
-                      <FontAwesomeIcon icon={faCheck} /> Unblock
-                    </button>
-                    <button
-                      className="btn btn-danger me-2"
-                      onClick={() => handleDeleteUser(user._id)}
-                    >
-                      <FontAwesomeIcon icon={faTrashAlt} /> Delete
-                    </button>
-                    {!user.isAdmin && (
-                      <button
-                        className="btn btn-primary me-2"
-                        onClick={() => handleGrantAdminAccess(user._id)}
-                      >
-                        <FontAwesomeIcon icon={faUserPlus} /> Grant Admin
-                      </button>
-                    )}
-                    {user.isAdmin && (
-                      <button
-                        className="btn btn-warning me-2"
-                        onClick={() => handleRevokeAdminAccess(user._id)}
-                      >
-                        <FontAwesomeIcon icon={faUserMinus} /> Revoke Admin
-                      </button>
-                    )}
-                  </td>
-                </tr>
+                <UserRow
+                  key={user._id}
+                  user={user}
+                  handleBlockUser={handleBlockUser}
+                  handleUnblockUser={handleUnblockUser}
+                  handleDeleteUser={handleDeleteUser}
+                  handleGrantAdminAccess={handleGrantAdminAccess}
+                  handleRevokeAdminAccess={handleRevokeAdminAccess}
+                />
               ))}
             </tbody>
           </table>
