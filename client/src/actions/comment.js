@@ -22,15 +22,17 @@ export const getCommentsByItemId = async (itemId) => {
   }
 };
 
-export const deleteCommentById = async (id) => {
-  try {
-    const response = await axios.delete(`http://localhost:5000/api/comment/${id}`);
-    return response.data;
-  } catch (error) {
-    console.error(error);
-    return error.message;
-  }
-};
+export const deleteCommentById = createAsyncThunk(
+  'comment/deleteCommentById',
+  async (id) => {
+    try {
+      const response = await axios.delete(`http://localhost:5000/api/comment/${id}`);
+      return response.data;
+    } catch (error) {
+      console.error(error);
+      return error.message;
+    }
+  });
 
 export const updateComment = createAsyncThunk(
   'comment/updateComment',

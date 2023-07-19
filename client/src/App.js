@@ -1,5 +1,7 @@
 import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { auth } from './actions/user';
 import Header from './components/Header/Header'
 import Main from './components/Main/Main';
 import Registration from './components/Registration/Registration';
@@ -10,8 +12,6 @@ import CollectionDetails from './components/CollectionDetails/CollectionDetails'
 import AdminPanel from './components/AdminPanel/AdminPanel';
 import ItemDetails from './components/ItemDetails/ItemDetails';
 import NotFoundPage from './components/NotFoundPage/NotFoundPage';
-import { useSelector, useDispatch } from 'react-redux';
-import { auth } from './actions/user';
 
 function App() {
   const isAuth = useSelector((state) => state.user.isAuth);
@@ -19,7 +19,15 @@ function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(auth());
+    const fetchData = async () => {
+      try {
+        await dispatch(auth()).unwrap();
+        
+      } catch (error) {
+      }
+    };
+
+    fetchData();
   }, [dispatch]);
 
   return (

@@ -52,6 +52,7 @@ export default function CollectionCard({ collection }) {
 
   const handleDeletionClick = async () => {
     try {
+      
       dispatch(
         deleteCollectionById({
           id: collection._id,

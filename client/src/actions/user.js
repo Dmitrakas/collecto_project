@@ -13,9 +13,14 @@ export const registration = async (username, email, password) => {
     );
     return response.data;
   } catch (error) {
-    return error.message;
+    if (error.response && error.response.data) {
+      return { error: error.response.data.error };
+    } else {
+      return { error: 'Network error or server is down.' };
+    }
   }
 };
+
 
 export const login = createAsyncThunk("user/loginUser", async (param) => {
   try {
@@ -26,7 +31,11 @@ export const login = createAsyncThunk("user/loginUser", async (param) => {
     });
     return response.data;
   } catch (error) {
-    return error.message;
+    if (error.response && error.response.data && error.response.data.error) {
+      throw new Error(error.response.data.error);
+    } else {
+      throw new Error('Network error or server is down.');
+    }
   }
 });
 
@@ -35,23 +44,29 @@ export const auth = createAsyncThunk("user/authUser", async (_, thunkAPI) => {
     const state = thunkAPI.getState();
     const token = state.user.token;
 
+    if (!token) {
+      throw new Error('Authorization token is missing');
+    }
+
     const response = await axios.get("http://localhost:5000/api/auth/auth", {
       headers: { Authorization: `Bearer ${token}` },
     });
 
     return response.data;
   } catch (error) {
-    return error.message;
+    if (error.response && error.response.data && error.response.data.error) {
+      throw new Error(error.response.data.error);
+    } else {
+      throw new Error('Network error or server is down.');
+    }
   }
 });
 
-export const logout = createAsyncThunk("user/logoutUser", async () => {
-  try {
-    return console.log("logged out");
-  } catch (error) {
-    return error.message;
-  }
+
+export const logout = createAsyncThunk('user/logoutUser', async () => {
+  return 'Logged out successfully';
 });
+
 
 export const getAllUsers = async () => {
   try {

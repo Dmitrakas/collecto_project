@@ -15,7 +15,7 @@ class ItemController {
       } = req.body;
 
       if (req.user.id !== userId && req.user.isAdmin !== true) {
-        return res.status(401).json({ message: "User is not Authorized!" });
+        return res.status(401).json({ error: "User is not Authorized!" });
       }
 
       const newItem = new Item({
@@ -32,7 +32,7 @@ class ItemController {
       res.status(201).json(createdItem);
     } catch (error) {
       console.error('Error creating item:', error);
-      res.status(500).json({ message: 'Failed to create item' });
+      res.status(500).json({ error: 'Failed to create item' });
     }
   };
 
@@ -41,22 +41,22 @@ class ItemController {
       const itemId = req.params.id;
       const userId = req.params.userId;
 
-      if (req.user.id !== userId && req.user.isAdmin !== true) {
-        return res.status(401).json({ message: "User is not Authorized!" });
+      if (req.user._id != userId && req.user.isAdmin != true) {
+        return res.status(401).json({ error: "User is not Authorized!" });
       }
 
       const item = await Item.findById(itemId);
       if (!item) {
-        return res.status(404).json({ message: "Item not found" });
+        return res.status(404).json({ error: "Item not found" });
       }
 
       await Comment.deleteMany({ itemId: item._id });
       await item.deleteOne();
 
-      return res.status(200).json({ message: "Item and associated comments deleted successfully" });
+      return res.status(200).json({ error: "Item and associated comments deleted successfully" });
     } catch (error) {
       console.log(error);
-      return res.status(500).json({ message: "Internal Server Error" });
+      return res.status(500).json({ error: "Internal Server Error" });
     }
   }
 
@@ -67,22 +67,22 @@ class ItemController {
       const userId = req.params.userId;
       const updatedData = req.body;
 
-      if (req.user.id !== userId && req.user.isAdmin !== true) {
-        return res.status(401).json({ message: "User is not Authorized!" });
+      if (req.user._id !== userId && req.user.isAdmin !== true) {
+        return res.status(401).json({ error: "User is not Authorized!" });
       }
 
       const item = await Item.findById(itemId);
       if (!item) {
-        return res.status(404).json({ message: "Item not found" });
+        return res.status(404).json({ error: "Item not found" });
       }
 
       item.set(updatedData);
       await item.save();
 
-      return res.status(200).json({ message: "Item updated successfully", item });
+      return res.status(200).json({ error: "Item updated successfully", item });
     } catch (error) {
       console.log(error);
-      return res.status(500).json({ message: "Internal Server Error" });
+      return res.status(500).json({ error: "Internal Server Error" });
     }
   }
 
@@ -92,7 +92,7 @@ class ItemController {
       return res.json({ items })
     } catch (error) {
       console.error('Error fetching items by collection ID:', error);
-      res.status(500).json({ message: 'Failed to fetch items by collection ID' });
+      res.status(500).json({ error: 'Failed to fetch items by collection ID' });
     }
   };
 
@@ -104,7 +104,7 @@ class ItemController {
       return res.json({ items });
     } catch (error) {
       console.error('Error fetching recent items:', error);
-      res.status(500).json({ message: 'Failed to fetch recent items' });
+      res.status(500).json({ error: 'Failed to fetch recent items' });
     }
   };
 
@@ -114,7 +114,7 @@ class ItemController {
       return res.json({ item });
     } catch (e) {
       console.log(e);
-      return res.status(500).json({ message: "Can not get item" });
+      return res.status(500).json({ error: "Can not get item" });
     }
   }
 
@@ -140,7 +140,7 @@ class ItemController {
       res.json({ tags: topTags });
     } catch (error) {
       console.error('Error fetching top tags:', error);
-      res.status(500).json({ message: 'Failed to fetch top tags' });
+      res.status(500).json({ error: 'Failed to fetch top tags' });
     }
   }
 

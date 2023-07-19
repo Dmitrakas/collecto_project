@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { login } from '../../actions/user';
-import './Login.css';
-
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { login } from "../../actions/user";
+import "./Login.css";
 
 export default function Login() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -15,22 +15,29 @@ export default function Login() {
     e.preventDefault();
 
     try {
-      dispatch(login({email, password}));
-      navigate('/');
+      await dispatch(login({ email, password })).unwrap();
+      navigate("/");
     } catch (error) {
-      console.log('Login error:', error.message);
+      if (error.message) {
+        setError(error.message);
+      } else {
+        setError("An error occurred during login. Please try again later.");
+      }
     }
 
-    setEmail('');
-    setPassword('');
+    setEmail("");
+    setPassword("");
   };
 
   return (
     <div className="login-container">
       <h2>Login</h2>
+      {error && <div className="alert alert-danger">{error}</div>}
       <form onSubmit={handleSubmit}>
         <div className="mb-3">
-          <label htmlFor="email" className="form-label">Email:</label>
+          <label htmlFor="email" className="form-label">
+            Email:
+          </label>
           <input
             type="email"
             className="form-control"
@@ -40,7 +47,9 @@ export default function Login() {
           />
         </div>
         <div className="mb-3">
-          <label htmlFor="password" className="form-label">Password:</label>
+          <label htmlFor="password" className="form-label">
+            Password:
+          </label>
           <input
             type="password"
             className="form-control"
@@ -49,7 +58,9 @@ export default function Login() {
             onChange={(e) => setPassword(e.target.value)}
           />
         </div>
-        <button type="submit" className="btn btn-primary">Login</button>
+        <button type="submit" className="btn btn-primary">
+          Login
+        </button>
       </form>
     </div>
   );

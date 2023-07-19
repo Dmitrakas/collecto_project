@@ -26,7 +26,7 @@ export default function CollectionDetails() {
   const [filter, setFilter] = useState("");
   const [sortOrder, setSortOrder] = useState("asc");
   const isAdmin = useSelector((state) => state.user?.currentUser?.isAdmin);
-  const userId = useSelector((state) => state?.user?.currentUser?._id);
+  const userId = useSelector((state) => state?.user?.currentUser?.id);
 
   const dispatch = useDispatch();
 

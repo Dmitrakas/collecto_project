@@ -22,7 +22,7 @@ class CollectionController {
       } = req.body;
 
       if (req.user.id !== userId && req.user.isAdmin !== true) {
-        return res.status(401).json({ message: "User is not Authorized!" });
+        return res.status(401).json({ error: "User is not Authorized!" });
       }
 
       let imageUrl = "";
@@ -61,7 +61,7 @@ class CollectionController {
       return res.json(newCollection);
     } catch (error) {
       console.error("Error creating collection:", error);
-      return res.status(400).json({ message: "Failed to create collection" });
+      return res.status(400).json({ error: "Failed to create collection" });
     }
   }
 
@@ -70,8 +70,8 @@ class CollectionController {
       const collectionId = req.params.id;
       const userId = req.params.userId;
 
-      if (req.user.id !== userId && req.user.isAdmin !== true) {
-        return res.status(401).json({ message: "User is not Authorized!" });
+      if (req.user._id !== userId && req.user.isAdmin !== true) {
+        return res.status(401).json({ error: "User is not Authorized!" });
       }
 
       const collection = await Collection.findById(collectionId);
@@ -88,10 +88,10 @@ class CollectionController {
       await Comment.deleteMany({ itemId: { $in: itemIds } });
       await Item.deleteMany({ collectionId });
 
-      return res.status(200).json({ message: "Collection, items, and associated comments deleted successfully" });
+      return res.status(200).json({ error: "Collection, items, and associated comments deleted successfully" });
     } catch (error) {
       console.log(error);
-      return res.status(500).json({ message: "Internal Server Error" });
+      return res.status(500).json({ error: "Internal Server Error" });
     }
   }
 
@@ -102,19 +102,19 @@ class CollectionController {
       const userId = req.params.userId;
       const updatedData = req.body;
 
-      if (req.user.id !== userId && req.user.isAdmin !== true) {
-        return res.status(401).json({ message: "User is not Authorized!" });
+      if (req.user._id !== userId && req.user.isAdmin !== true) {
+        return res.status(401).json({ error: "User is not Authorized!" });
       }
 
       const collection = await Collection.findById(collectionId);
       if (!collection) {
-        return res.status(404).json({ message: "Collection not found" });
+        return res.status(404).json({ error: "Collection not found" });
       }
 
       if (req.file) {
         const result = await upload.single('image')(req, res);
         if (!result || !result.secure_url) {
-          return res.status(500).json({ message: "Failed to upload image" });
+          return res.status(500).json({ error: "Failed to upload image" });
         }
         updatedData.image = result.secure_url;
         updatedData.imageId = result.public_id;
@@ -123,10 +123,10 @@ class CollectionController {
       collection.set(updatedData);
       await collection.save();
 
-      return res.status(200).json({ message: "Collection updated successfully", collection });
+      return res.status(200).json({ error: "Collection updated successfully", collection });
     } catch (error) {
       console.log(error);
-      return res.status(500).json({ message: "Internal Server Error" });
+      return res.status(500).json({ error: "Internal Server Error" });
     }
   }
 
@@ -136,7 +136,7 @@ class CollectionController {
       return res.json({ collections });
     } catch (e) {
       console.log(e);
-      return res.status(500).json({ message: "Can not get collections" });
+      return res.status(500).json({ error: "Can not get collections" });
     }
   }
 
@@ -146,7 +146,7 @@ class CollectionController {
       return res.json({ collections });
     } catch (e) {
       console.log(e);
-      return res.status(500).json({ message: "Can not get collections" });
+      return res.status(500).json({ error: "Can not get collections" });
     }
   }
 
@@ -156,7 +156,7 @@ class CollectionController {
       return res.json({ collection });
     } catch (e) {
       console.log(e);
-      return res.status(500).json({ message: "Can not get collection" });
+      return res.status(500).json({ error: "Can not get collection" });
     }
   }
 
@@ -179,7 +179,7 @@ class CollectionController {
       res.json({ largestCollections });
     } catch (error) {
       console.error('Failed to get largest collections:', error);
-      res.status(500).json({ message: 'Failed to get largest collections' });
+      res.status(500).json({ error: 'Failed to get largest collections' });
     }
   }
 }

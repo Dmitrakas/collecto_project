@@ -1,7 +1,6 @@
 const Router = require('express');
 const Comment = require('../models/comment');
 const router = new Router();
-const authMiddleware = require('../middleware/authMiddleware');
 
 router.post('/', async (req, res) => {
   try {

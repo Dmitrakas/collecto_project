@@ -10,7 +10,6 @@ class UserController {
       const users = await User.find({});
       res.json(users);
     } catch (error) {
-      console.error('Error fetching users:', error.message);
       res.status(500).json({ error: 'Failed to fetch users' });
     }
   }
@@ -24,7 +23,6 @@ class UserController {
       }
       res.json({ username: user.username });
     } catch (error) {
-      console.error('Error fetching username:', error.message);
       res.status(500).json({ error: 'Failed to fetch username' });
     }
   }
@@ -40,7 +38,6 @@ class UserController {
       await user.save();
       res.json({ message: 'User blocked successfully' });
     } catch (error) {
-      console.error('Error blocking user:', error.message);
       res.status(500).json({ error: 'Failed to block user' });
     }
   }
@@ -56,7 +53,6 @@ class UserController {
       await user.save();
       res.json({ message: 'User unblocked successfully' });
     } catch (error) {
-      console.error('Error unblocking user:', error.message);
       res.status(500).json({ error: 'Failed to unblock user' });
     }
   }
@@ -84,7 +80,6 @@ class UserController {
 
       res.json({ message: 'User, associated collections, items, and comments deleted successfully' });
     } catch (error) {
-      console.error('Error deleting user:', error.message);
       res.status(500).json({ error: 'Failed to delete user' });
     }
   }
@@ -101,7 +96,6 @@ class UserController {
       await user.save();
       res.json({ message: 'Admin access granted successfully' });
     } catch (error) {
-      console.error('Error granting admin access:', error.message);
       res.status(500).json({ error: 'Failed to grant admin access' });
     }
   }
@@ -117,7 +111,6 @@ class UserController {
       await user.save();
       res.json({ message: 'Admin access revoked successfully' });
     } catch (error) {
-      console.error('Error revoking admin access:', error.message);
       res.status(500).json({ error: 'Failed to revoke admin access' });
     }
   }
