@@ -48,6 +48,9 @@ router.post('/login', async (req, res) => {
     if (!user) {
       return res.status(404).json({ error: "User not found. Please check your email or register if you haven't already." });
     }
+    if (user.blocked === true) {
+      return res.status(403).json({ error: "User is blocked. Please contact our support team for more information." });
+    }
     const isPasswordValid = bcrypt.compareSync(password, user.password);
     if (!isPasswordValid) {
       return res.status(400).json({ error: "Invalid password. Please enter the correct password." });
@@ -78,6 +81,9 @@ router.get('/auth', authMiddleware,
       const user = await User.findOne({ _id: req.user.id });
       if (!user) {
         return res.status(401).json({ error: 'Unauthorized' });
+      }
+      if (user.blocked === true) {
+        return res.status(403).json({ error: "User is blocked. Please contact our support team for more information." });
       }
 
       const token = jwt.sign({ id: user.id, isAdmin: user.isAdmin }, config.get("secretKey"), { expiresIn: "6h" });

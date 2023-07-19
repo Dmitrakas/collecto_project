@@ -46,9 +46,15 @@ export const userSlice = createSlice({
         state.isLoading = false;
         state.token = action.payload.token;
         state.currentUser = action.payload.user;
+        state.isAuth = true;
+      })
+      .addCase(auth.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
       })
       .addCase(auth.rejected, (state, action) => {
-        state.isLoading = true;
+        state.isLoading = false;
+        state.error = action.error.message;
       })
   },
 });

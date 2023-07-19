@@ -56,12 +56,13 @@ export const auth = createAsyncThunk("user/authUser", async (_, thunkAPI) => {
   } catch (error) {
     if (error.response && error.response.data && error.response.data.error) {
       throw new Error(error.response.data.error);
+    } else if (error.message === 'Authorization token is missing') {
+      throw error;
     } else {
       throw new Error('Network error or server is down.');
     }
   }
 });
-
 
 export const logout = createAsyncThunk('user/logoutUser', async () => {
   return 'Logged out successfully';
