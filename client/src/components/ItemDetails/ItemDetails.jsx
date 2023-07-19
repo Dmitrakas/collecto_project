@@ -129,7 +129,6 @@ export default function ItemDetails() {
     setIsEditing(false);
     setEditedCommentId(null);
     setEditedCommentText("");
-    console.log(isEditing);
   };
 
   const handleUpdateComment = async (event, commentId) => {
