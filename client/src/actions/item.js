@@ -7,7 +7,7 @@ export const createItem = createAsyncThunk(
     try {
       const state = thunkAPI.getState();
       const token = state.user.token;
-      const response = await axios.post('http://localhost:5000/api/item/create', param, {
+      const response = await axios.post('https://collecto-app.onrender.com/api/item/create', param, {
         headers: { Authorization: `Bearer ${token}` },
       });
       return response.data;
@@ -24,7 +24,7 @@ export const deleteItemById = createAsyncThunk(
     try {
       const state = thunkAPI.getState();
       const token = state.user.token;
-      const response = await axios.delete(`http://localhost:5000/api/item/delete/${id}`, {
+      const response = await axios.delete(`https://collecto-app.onrender.com/api/item/delete/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       return response.data;
@@ -40,7 +40,7 @@ export const updateItem = createAsyncThunk(
     try {
       const state = thunkAPI.getState();
       const token = state.user.token;
-      const response = await axios.put(`http://localhost:5000/api/item/update/${id}`, data, {
+      const response = await axios.put(`https://collecto-app.onrender.com/api/item/update/${id}`, data, {
         headers: { Authorization: `Bearer ${token}` },
       });
 
@@ -58,7 +58,7 @@ export const updateItem = createAsyncThunk(
 
 export const getItems = async (collectionId) => {
   try {
-    const response = await axios.get('http://localhost:5000/api/item/itemsByCollectionId', {
+    const response = await axios.get('https://collecto-app.onrender.com/api/item/itemsByCollectionId', {
       params: {
         collectionId: collectionId
       }
@@ -71,7 +71,7 @@ export const getItems = async (collectionId) => {
 
 export const getRecentItems = async () => {
   try {
-    const response = await axios.get('http://localhost:5000/api/item/recent')
+    const response = await axios.get('https://collecto-app.onrender.com/api/item/recent')
     return response.data.items;
   } catch (error) {
     return error.message;
@@ -83,7 +83,7 @@ export const getRecentItems = async () => {
 
 export const getItemById = async (id) => {
   try {
-    const response = await axios.get('http://localhost:5000/api/item/itemById', {
+    const response = await axios.get('https://collecto-app.onrender.com/api/item/itemById', {
       params: {
         id: id
       }
@@ -96,7 +96,7 @@ export const getItemById = async (id) => {
 
 export const getTopTags = async () => {
   try {
-    const response = await axios.get('http://localhost:5000/api/item/topTags');
+    const response = await axios.get('https://collecto-app.onrender.com/api/item/topTags');
     return response.data.tags;
   } catch (error) {
     return error.message;

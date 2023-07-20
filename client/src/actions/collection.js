@@ -23,7 +23,7 @@ export const createCollection = createAsyncThunk(
         userId,
       } = param;
 
-      const response = await axios.post('http://localhost:5000/api/collection/create', {
+      const response = await axios.post('https://collecto-app.onrender.com/api/collection/create', {
         name,
         description,
         theme,
@@ -53,7 +53,7 @@ export const updateCollection = createAsyncThunk(
 
       const state = thunkAPI.getState();
       const token = state.user.token;
-      const response = await axios.put(`http://localhost:5000/api/collection/update/${id}`, data, {
+      const response = await axios.put(`https://collecto-app.onrender.com/api/collection/update/${id}`, data, {
         headers: { Authorization: `Bearer ${token}` },
       });
 
@@ -76,7 +76,7 @@ export const deleteCollectionById = createAsyncThunk(
     try {
       const state = thunkAPI.getState();
       const token = state.user.token;
-      const response = await axios.delete(`http://localhost:5000/api/collection/delete/${id}`, {
+      const response = await axios.delete(`https://collecto-app.onrender.com/api/collection/delete/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       return response.data;
@@ -89,7 +89,7 @@ export const deleteCollectionById = createAsyncThunk(
 
 export const getCollections = async (userId) => {
   try {
-    const response = await axios.get('http://localhost:5000/api/collection/collections', {
+    const response = await axios.get('https://collecto-app.onrender.com/api/collection/collections', {
       params: {
         userId: userId
       }
@@ -102,7 +102,7 @@ export const getCollections = async (userId) => {
 
 export const getAllCollections = async () => {
   try {
-    const response = await axios.get('http://localhost:5000/api/collection/allCollections');
+    const response = await axios.get('https://collecto-app.onrender.com/api/collection/allCollections');
     return response.data.collections;
   } catch (error) {
     return error.message;
@@ -111,7 +111,7 @@ export const getAllCollections = async () => {
 
 export const getCollectionById = async (id) => {
   try {
-    const response = await axios.get('http://localhost:5000/api/collection/collectionById', {
+    const response = await axios.get('https://collecto-app.onrender.com/api/collection/collectionById', {
       params: {
         id: id
       }
@@ -124,7 +124,7 @@ export const getCollectionById = async (id) => {
 
 export const getLargestCollections = async () => {
   try {
-    const response = await axios.get('http://localhost:5000/api/collection/largest');
+    const response = await axios.get('https://collecto-app.onrender.com/api/collection/largest');
     return response.data.largestCollections;
   } catch (error) {
     return error.message;

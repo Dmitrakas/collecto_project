@@ -4,7 +4,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 export const registration = async (username, email, password) => {
   try {
     const response = await axios.post(
-      `http://localhost:5000/api/auth/registration`,
+      `https://collecto-app.onrender.com/api/auth/registration`,
       {
         username,
         email,
@@ -25,7 +25,7 @@ export const registration = async (username, email, password) => {
 export const login = createAsyncThunk("user/loginUser", async (param) => {
   try {
     const { email, password } = param;
-    const response = await axios.post("http://localhost:5000/api/auth/login", {
+    const response = await axios.post("https://collecto-app.onrender.com/api/auth/login", {
       email,
       password,
     });
@@ -48,7 +48,7 @@ export const auth = createAsyncThunk("user/authUser", async (_, thunkAPI) => {
       throw new Error('Authorization token is missing');
     }
 
-    const response = await axios.get("http://localhost:5000/api/auth/auth", {
+    const response = await axios.get("https://collecto-app.onrender.com/api/auth/auth", {
       headers: { Authorization: `Bearer ${token}` },
     });
 
@@ -71,7 +71,7 @@ export const logout = createAsyncThunk('user/logoutUser', async () => {
 
 export const getAllUsers = async () => {
   try {
-    const response = await axios.get(`http://localhost:5000/api/user`);
+    const response = await axios.get(`https://collecto-app.onrender.com/api/user`);
     return response.data;
   } catch (error) {
     console.error("Error fetching users:", error.message);
@@ -81,7 +81,7 @@ export const getAllUsers = async () => {
 
 export const getUserUsernameById = async (userId) => {
   try {
-    const response = await axios.get(`http://localhost:5000/api/user/username/${userId}`);
+    const response = await axios.get(`https://collecto-app.onrender.com/api/user/username/${userId}`);
     return response.data.username;
   } catch (error) {
     console.error("Error fetching users:", error.message);
@@ -91,7 +91,7 @@ export const getUserUsernameById = async (userId) => {
 
 export const blockUser = async (userId) => {
   try {
-    const response = await axios.put(`http://localhost:5000/api/user/${userId}/block`);
+    const response = await axios.put(`https://collecto-app.onrender.com/api/user/${userId}/block`);
     return response.data;
   } catch (error) {
     console.error("Error blocking user:", error.message);
@@ -101,7 +101,7 @@ export const blockUser = async (userId) => {
 
 export const unblockUser = async (userId) => {
   try {
-    const response = await axios.put(`http://localhost:5000/api/user/${userId}/unblock`);
+    const response = await axios.put(`https://collecto-app.onrender.com/api/user/${userId}/unblock`);
     return response.data;
   } catch (error) {
     console.error("Error unblocking user:", error.message);
@@ -111,7 +111,7 @@ export const unblockUser = async (userId) => {
 
 export const deleteUser = async (userId) => {
   try {
-    const response = await axios.delete(`http://localhost:5000/api/user/${userId}`);
+    const response = await axios.delete(`https://collecto-app.onrender.com/api/user/${userId}`);
     return response.data;
   } catch (error) {
     console.error("Error deleting user:", error.message);
@@ -121,7 +121,7 @@ export const deleteUser = async (userId) => {
 
 export const grantAdminAccess = async (userId) => {
   try {
-    const response = await axios.put(`http://localhost:5000/api/user/${userId}/admin/grant`);
+    const response = await axios.put(`https://collecto-app.onrender.com/api/user/${userId}/admin/grant`);
     return response.data;
   } catch (error) {
     console.error("Error granting admin access:", error.message);
@@ -131,7 +131,7 @@ export const grantAdminAccess = async (userId) => {
 
 export const revokeAdminAccess = async (userId) => {
   try {
-    const response = await axios.put(`http://localhost:5000/api/user/${userId}/admin/revoke`);
+    const response = await axios.put(`https://collecto-app.onrender.com/api/user/${userId}/admin/revoke`);
     return response.data;
   } catch (error) {
     console.error("Error revoking admin access:", error.message);
