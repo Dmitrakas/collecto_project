@@ -25,6 +25,7 @@ export default function CollectionDetails() {
   const [items, setItems] = useState([]);
   const [filter, setFilter] = useState("");
   const [sortOrder, setSortOrder] = useState("asc");
+  const [itemsError, setItemsError] = useState(null);
   const isAdmin = useSelector((state) => state.user?.currentUser?.isAdmin);
   const userId = useSelector((state) => state?.user?.currentUser?.id);
 
@@ -44,16 +45,15 @@ export default function CollectionDetails() {
       try {
         const response = await getItems(collectionId);
         setItems(response);
+        setItemsError(null);
       } catch (error) {
-        console.error("Error fetching items:", error.message);
+        setItemsError("Error fetching items. Please try again later.");
       }
     };
-
     fetchCollectionDetails();
     fetchItems();
 
     const interval = setInterval(() => {
-      fetchCollectionDetails();
       fetchItems();
     }, 5000);
 
@@ -64,7 +64,7 @@ export default function CollectionDetails() {
     const fetchTags = async () => {
       try {
         const tags = await getTopTags();
-        setAutocompleteTags(tags);
+        setAutocompleteTags(tags || []);
       } catch (error) {
         console.error("Error fetching tags:", error.message);
       }
@@ -107,9 +107,11 @@ export default function CollectionDetails() {
     setSortOrder((prevSortOrder) => (prevSortOrder === "asc" ? "desc" : "asc"));
   };
 
-  const filteredItems = items.filter((item) =>
-    item.name.toLowerCase().includes(filter.toLowerCase())
-  );
+  const filteredItems = Array.isArray(items)
+    ? items.filter((item) =>
+        item.name.toLowerCase().includes(filter.toLowerCase())
+      )
+    : [];
 
   const sortedItems = filteredItems.sort((a, b) => {
     if (sortOrder === "asc") {
@@ -119,7 +121,11 @@ export default function CollectionDetails() {
     }
   });
 
-  if (!collection) {
+  const suggestions = Array.isArray(autocompleteTags)
+    ? autocompleteTags.map((tag) => ({ id: tag, text: tag }))
+    : [];
+
+  if (!collection || collection === 'Network Error') {
     return <p>Loading collection details...</p>;
   }
 
@@ -238,10 +244,7 @@ export default function CollectionDetails() {
                 placeholder="Add tags"
                 allowDragDrop={false}
                 autofocus={false}
-                suggestions={autocompleteTags.map((tag) => ({
-                  id: tag,
-                  text: tag,
-                }))}
+                suggestions={suggestions}
                 minQueryLength={1}
               />
             </div>
@@ -284,9 +287,9 @@ export default function CollectionDetails() {
       )}
 
       <h3>Items</h3>
-      {items.length === 0 ||
-      items === undefined ||
-      (items === "Network Error") === 0 ? (
+      {itemsError ? (
+        <p>{itemsError}</p>
+      ) : !Array.isArray(items) || items.length === 0 ? (
         <p>No items</p>
       ) : (
         <div className="table-responsive">

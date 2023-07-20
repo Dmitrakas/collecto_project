@@ -13,14 +13,20 @@ export default function Main() {
   const [items, setItems] = useState([]);
   const [collectionsLoading, setCollectionsLoading] = useState(true);
   const [itemsLoading, setItemsLoading] = useState(true);
+  const [collectionsError, setCollectionsError] = useState(null);
+  const [itemsError, setItemsError] = useState(null);
 
   useEffect(() => {
     const fetchCollections = async () => {
       try {
         const response = await getLargestCollections();
+        if (!Array.isArray(response)) {
+          setCollectionsError("Invalid response - expected an array");
+          return;
+        }
         setCollections(response);
       } catch (error) {
-        console.error("Error fetching collections:", error.message);
+        setCollectionsError("Error collections: " + error.message);
       } finally {
         setCollectionsLoading(false);
       }
@@ -42,21 +48,14 @@ export default function Main() {
         );
         setItems(resolvedItems);
       } catch (error) {
-        console.error("Error fetching Items:", error.message);
+        setItemsError("Error fetching items: " + error.message);
       } finally {
         setItemsLoading(false);
       }
     };
 
-    const interval = setInterval(() => {
-      fetchCollections();
-      fetchItems();
-    }, 5000);
-
     fetchCollections();
     fetchItems();
-
-    return () => clearInterval(interval);
   }, []);
 
   return (
@@ -64,6 +63,8 @@ export default function Main() {
       <h2>Recent 10 Items:</h2>
       {itemsLoading ? (
         <p>Loading items...</p>
+      ) : itemsError ? (
+        <p>{itemsError}</p>
       ) : items.length === 0 ? (
         <p>No recent items</p>
       ) : (
@@ -100,6 +101,8 @@ export default function Main() {
       <h2>5 largest collections:</h2>
       {collectionsLoading ? (
         <p>Loading collections...</p>
+      ) : collectionsError ? (
+        <p>{collectionsError}</p>
       ) : collections.length === 0 ? (
         <p>No collections</p>
       ) : (
@@ -110,7 +113,9 @@ export default function Main() {
                 to={`/collections/${collection._id}`}
                 state={{ collectionId: collection._id }}
               >
-                <h3 className="card-title">Collection Name: {collection.name}</h3>
+                <h3 className="card-title">
+                  Collection Name: {collection.name}
+                </h3>
               </Link>
               <p className="card-theme">Theme: {collection.theme}</p>
               <div className="card-image-container">
