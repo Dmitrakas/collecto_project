@@ -225,7 +225,7 @@ export default function ItemDetails() {
 
                   {comment.author === userId && (
                     <div>
-                      {isAuth && comment.author === userId && (
+                      {isAuth && comment.author === userId && !isEditing && (
                         <button
                           className="edit-comment-button btn btn-secondary"
                           onClick={() =>
