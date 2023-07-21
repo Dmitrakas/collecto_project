@@ -14,7 +14,6 @@ import {
   updateCollection,
 } from "../../actions/collection";
 import { collectionOptions } from "../../utils/CollectionOptions";
-import "./CollectionCard.css";
 
 export default function CollectionCard({ collection }) {
   const dispatch = useDispatch();

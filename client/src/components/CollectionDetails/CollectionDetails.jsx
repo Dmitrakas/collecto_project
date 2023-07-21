@@ -125,7 +125,7 @@ export default function CollectionDetails() {
     ? autocompleteTags.map((tag) => ({ id: tag, text: tag }))
     : [];
 
-  if (!collection || collection === 'Network Error') {
+  if (!collection || collection === "Network Error") {
     return <p>Loading collection details...</p>;
   }
 

@@ -1,10 +1,10 @@
 .collection-info {
-  padding: 20px;
+  padding: 60px;
 }
 
 .collection-info h2 {
   margin-bottom: 20px;
-  font-size: 24px;
+  font-size: 40px;
 }
 
 .form-label {
@@ -30,24 +30,13 @@ textarea.form-control {
 
 .markdown-preview {
   margin-top: 10px;
-}
-
-.d-flex {
-  display: flex;
-}
-
-.me-3 {
-  margin-right: 15px;
+  background-color: rgb(199, 197, 197);
+  padding: 10px;
+  border-radius: 10px;
 }
 
 button[type="submit"] {
   margin-top: 15px;
-}
-
-@media (max-width: 767px) {
-  .me-3 {
-    margin-right: 0;
-  }
 }
 
 @media (min-width: 768px) and (max-width: 991px) {
@@ -84,8 +73,6 @@ button[type="submit"] {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 20px;
-  max-width: 1200px;
-  margin: 0 auto;
 }
 
 @media (max-width: 991px) {

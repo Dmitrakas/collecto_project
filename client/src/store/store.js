@@ -3,7 +3,7 @@ import { persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import { userSlice } from './reducers/userReducer';
 import { collectionSlice } from './reducers/collectionReducer';
-import {itemSlice } from './reducers/itemReducer';
+import { itemSlice } from './reducers/itemReducer';
 import { commentSlice } from './reducers/commentReducer';
 
 const persistConfig = {

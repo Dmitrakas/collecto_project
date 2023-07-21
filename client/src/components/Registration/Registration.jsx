@@ -22,7 +22,7 @@ export default function Registration() {
         setUsername("");
         setEmail("");
         setPassword("");
-        navigate('/login');
+        navigate("/login");
       }
     } catch (error) {
       console.log("Registration error:", error.message);

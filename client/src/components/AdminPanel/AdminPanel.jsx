@@ -7,7 +7,7 @@ import {
   deleteUserAction,
   grantAdminAccessAction,
   revokeAdminAccessAction,
-} from "./userActions";
+} from "./adminActions";
 
 export default function AdminPanel() {
   const [users, setUsers] = useState([]);

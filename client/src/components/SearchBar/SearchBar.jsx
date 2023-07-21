@@ -11,7 +11,7 @@ function SearchBar() {
   };
 
   return (
-    <div className="d-flex align-items-center me-4">
+    <div className="d-flex align-items-center">
       <input
         type="text"
         className="custom-input me-2"

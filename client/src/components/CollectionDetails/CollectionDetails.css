@@ -5,6 +5,14 @@
   gap: 4px;
 }
 
+.collection-details {
+  padding: 50px;
+}
+
+.collection-details h3 {
+  margin-top: 20px;
+}
+
 .bootstrap-tag-input {
   display: flex;
   align-items: center;
@@ -35,4 +43,3 @@
   display: flex;
   align-items: center;
 }
-

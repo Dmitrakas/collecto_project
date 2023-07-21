@@ -10,7 +10,7 @@ export const itemSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(createItem.fulfilled, (state, action) => {
+      .addCase(createItem.fulfilled, (state) => {
         state.isLoading = false;
       })
       .addCase(createItem.pending, (state) => {
@@ -19,7 +19,7 @@ export const itemSlice = createSlice({
       .addCase(createItem.rejected, (state) => {
         state.isLoading = false;
       })
-      .addCase(updateItem.fulfilled, (state, action) => {
+      .addCase(updateItem.fulfilled, (state) => {
         state.isLoading = false;
       })
       .addCase(updateItem.pending, (state) => {
@@ -28,7 +28,7 @@ export const itemSlice = createSlice({
       .addCase(updateItem.rejected, (state) => {
         state.isLoading = false;
       })
-      .addCase(deleteItemById.fulfilled, (state, action) => {
+      .addCase(deleteItemById.fulfilled, (state) => {
         state.isLoading = false;
       })
   },
