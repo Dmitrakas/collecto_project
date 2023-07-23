@@ -151,6 +151,7 @@ export default function ItemDetails() {
 
       setEditedCommentId(null);
       setEditedCommentText("");
+      setIsEditing(false);
     } catch (error) {
       console.error("Error updating comment:", error.message);
     }
@@ -160,7 +161,7 @@ export default function ItemDetails() {
     <div className="container item-details">
       <h2>Item Details</h2>
       <h3>Item Name: {item.name}</h3>
-      {isLoading || item.tags === undefined || item.tags.length === 0 ? (
+      {isLoading || item.tags === undefined ? (
         <div className="loader">Loading...</div>
       ) : (
         <div>
@@ -223,9 +224,9 @@ export default function ItemDetails() {
                     <p>{comment.text}</p>
                   )}
 
-                  {comment.author === userId && (
+                  {comment.author === userId && !isEditing && (
                     <div>
-                      {isAuth && comment.author === userId && !isEditing && (
+                      {isAuth && comment.author === userId && (
                         <button
                           className="edit-comment-button btn btn-secondary"
                           onClick={() =>

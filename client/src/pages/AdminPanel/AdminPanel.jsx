@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { getAllUsers } from "../../actions/user";
-import UserRow from "./UserRow";
+import UserRow from "../../components/AdminPanel/UserRow";
 import {
   blockUserAction,
   unblockUserAction,
   deleteUserAction,
   grantAdminAccessAction,
   revokeAdminAccessAction,
-} from "./adminActions";
+} from "../../components/AdminPanel/adminActions";
 
 export default function AdminPanel() {
   const [users, setUsers] = useState([]);

@@ -3,15 +3,15 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { auth, logout } from './actions/user';
 import Header from './components/Header/Header'
-import Main from './components/Main/Main';
-import Registration from './components/Registration/Registration';
-import Login from './components/Login/Login';
-import Collection from './components/Collection/Collection';
-import Profile from './components/Profile/Profile';
-import CollectionDetails from './components/CollectionDetails/CollectionDetails';
-import AdminPanel from './components/AdminPanel/AdminPanel';
-import ItemDetails from './components/ItemDetails/ItemDetails';
-import NotFoundPage from './components/NotFoundPage/NotFoundPage';
+import Main from './pages/Main/Main';
+import Registration from './pages/Registration/Registration';
+import Login from './pages/Login/Login';
+import Collection from './pages/Collection/Collection';
+import Profile from './pages/Profile/Profile';
+import CollectionDetails from './pages/CollectionDetails/CollectionDetails';
+import AdminPanel from './pages/AdminPanel/AdminPanel';
+import ItemDetails from './pages/ItemDetails/ItemDetails';
+import NotFoundPage from './pages/NotFoundPage/NotFoundPage';
 
 function App() {
   const isAuth = useSelector((state) => state.user.isAuth);
@@ -24,6 +24,7 @@ function App() {
       try {
         await dispatch(auth()).unwrap();
       } catch (error) {
+        dispatch(logout());
       }
     };
 
@@ -43,14 +44,14 @@ function App() {
             <>
               <Route path="/" element={<Main />} />
               <Route path="/collections" element={<Collection />} />
-              <Route path="/collections/:collectionId" element={<CollectionDetails />} />
-              <Route path="/collections/:collectionId/:itemId" element={<ItemDetails />} />
               <Route path="/profile" element={<Profile />} />
             </>
           )}
           <Route path="/" element={<Main />} />
           <Route path="/registration" element={<Registration />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/collections/:collectionId" element={<CollectionDetails />} />
+          <Route path="/collections/:collectionId/:itemId" element={<ItemDetails />} />
           <Route path="/*" element={<NotFoundPage />} />
           {isAuth && isAdmin && <Route path="/admin" element={<AdminPanel />} />}
         </Routes>
