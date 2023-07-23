@@ -7,7 +7,7 @@ const CollectionList = ({ collections }) => {
   }
 
   return (
-    <div className="collections">
+    <div className="collection-list">
       {collections.map((collection) => (
         <CollectionCard key={collection._id} collection={collection} />
       ))}

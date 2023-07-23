@@ -1,5 +1,5 @@
 .collection-info {
-  padding: 60px;
+  padding: 40px;
 }
 
 .collection-info h2 {
@@ -41,7 +41,7 @@ button[type="submit"] {
 
 @media (min-width: 768px) and (max-width: 991px) {
   .collection-info {
-    padding: 30px;
+    padding: 20px;
   }
 
   .collection-info h2 {
@@ -51,7 +51,7 @@ button[type="submit"] {
 
 @media (min-width: 992px) and (max-width: 1199px) {
   .collection-info {
-    padding: 40px;
+    padding: 30px;
   }
 
   .collection-info h2 {
@@ -61,7 +61,7 @@ button[type="submit"] {
 
 @media (min-width: 1200px) and (max-width: 1600px) {
   .collection-info {
-    padding: 60px;
+    padding: 35px;
   }
 
   .collection-info h2 {
@@ -69,20 +69,31 @@ button[type="submit"] {
   }
 }
 
-.collections {
+.collection-list {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 20px;
 }
 
 @media (max-width: 991px) {
-  .collections {
+  .collection-list {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 
 @media (max-width: 650px) {
-  .collections {
+  .collection-list {
     grid-template-columns: 1fr;
   }
+}
+
+.collection-card {
+  border: 3px solid rgb(130, 132, 139);
+  border-radius: 10px;
+  padding: 10px;
+  margin: 0 auto;
+}
+
+.collection-card .card-theme {
+  font-weight: bold;
 }

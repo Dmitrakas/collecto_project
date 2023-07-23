@@ -139,8 +139,8 @@ export default function CollectionDetails() {
 
   return (
     <div className="collection-details">
-      <h2>Collection Details</h2>
-      <h3 className="card-title">Collection Name: {collection.name}</h3>
+      <h2 className="card-title">Collection Details</h2>
+      <h3 className="title">Collection Name: {collection.name}</h3>
       <div className="card-description">
         Description: <ReactMarkdown>{collection.description}</ReactMarkdown>
       </div>
@@ -155,6 +155,7 @@ export default function CollectionDetails() {
 
       {(isAdmin || userId === collection.userId) && (
         <>
+        <h2 className="card-title">Create Item</h2>
           <form onSubmit={handleAddItem}>
             <div className="mb-3">
               <label htmlFor="name" className="form-label">
@@ -229,7 +230,7 @@ export default function CollectionDetails() {
         </>
       )}
 
-      <h3>Items</h3>
+      <h3 className="card-title my-4">Items</h3>
       {itemsError ? (
         <p>{itemsError}</p>
       ) : !Array.isArray(items) || items.length === 0 ? (

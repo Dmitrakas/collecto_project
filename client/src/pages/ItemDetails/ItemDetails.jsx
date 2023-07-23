@@ -159,8 +159,8 @@ export default function ItemDetails() {
 
   return (
     <div className="container item-details">
-      <h2>Item Details</h2>
-      <h3>Item Name: {item.name}</h3>
+      <h2 className="card-title">Item Details</h2>
+      <h2>Item name: {item.name}</h2>
       {isLoading || item.tags === undefined ? (
         <div className="loader">Loading...</div>
       ) : (

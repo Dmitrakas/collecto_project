@@ -29,7 +29,7 @@ const Collection = () => {
 
   const handleCreateCollection = async (formData) => {
     try {
-      await dispatch(createCollection({ ...formData, userId }));
+      dispatch(createCollection({ ...formData, userId }));
     } catch (error) {
       console.error("Error creating collection:", error.message);
     }
@@ -37,9 +37,9 @@ const Collection = () => {
 
   return (
     <div className="collection-info">
-      <h2>Create Collection</h2>
+      <h2 className="card-title">Create Collection</h2>
       <CollectionForm onCreateCollection={handleCreateCollection} />
-      <h2>Collections: </h2>
+      <h2 className="card-title">Collections: </h2>
       <CollectionList collections={collections} />
     </div>
   );

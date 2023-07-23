@@ -58,7 +58,7 @@ const CollectionCard = ({ collection }) => {
   };
 
   return (
-    <div className="card collection-card" key={collection._id}>
+    <div className="collection-card" key={collection._id}>
       <div className="card-body">
         {isEditing ? (
           <CollectionCardForm

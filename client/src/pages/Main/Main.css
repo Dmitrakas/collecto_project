@@ -2,11 +2,12 @@
   margin: 20px;
 }
 
-h2 {
-  font-size: 24px;
+.main-container h2 {
+  font-size: 36px;
   font-weight: bold;
   margin-bottom: 10px;
-}
+  text-align: center;
+} 
 
 .table {
   width: 100%;
@@ -18,7 +19,7 @@ h2 {
 .table td {
   border: 1px solid #ddd;
   padding: 8px;
-  text-align: left;
+  text-align: center;
 }
 
 .table th {
@@ -27,7 +28,7 @@ h2 {
 
 .collections-container {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 20px;
 }
 
@@ -36,25 +37,26 @@ h2 {
   border: 1px solid #ddd;
   border-radius: 5px;
   background-color: #fff;
+  margin: 0px auto;
 }
 
-.card-title {
+.collection .card-title {
   font-size: 20px;
   font-weight: bold;
-  margin-bottom: 10px;
 }
 
-.card-theme {
+.collection .card-theme {
   margin-bottom: 10px;
+  text-align: center;
+  font-weight: bold;
 }
 
-.card-image-container {
+.collection .card-image-container {
   overflow: hidden;
   border-radius: 5px;
 }
 
-.card-image {
-  height: auto;
+.collection .card-image {
   display: block;
   border-radius: 5px;
 }
